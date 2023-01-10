@@ -5,6 +5,15 @@ Main Repository => https://github.com/Lunastellia/Challenger-Among-Us
 
 - This File (ChallengerOS.dll) Use GNU GLPv3 license.
 
+## DEPENDENCY :
+
+- Challenger.dll
+- ChallengerLevel.dll
+- Reactor.dll
+- GLMod.dll
+
+* these files are downloadable in the main project
+
 ## Credits :
 
 **For Help and inspirations to create roles & Features :**
