@@ -108,7 +108,7 @@ namespace ChallengerOS.Utils {
             else if (Morphling.Role != null && Morphling.Role == player && Morphling.CanVent) { roleCouldUse = true; }
             else if (Scrambler.Role != null && Scrambler.Role == player && Scrambler.CanVent) { roleCouldUse = true; }
             else if (Barghest.Role != null && Barghest.Role == player && Barghest.CanVent) { roleCouldUse = true; }
-            else if (Ghost.Role != null && Ghost.Role == player && Ghost.CanVent) { roleCouldUse = true; }
+            else if (Ghost.Role != null && Ghost.Role == player && Ghost.CanVent && !Ghost.Hide) { roleCouldUse = true; }
             else if (Sorcerer.Role != null && Sorcerer.Role == player && Sorcerer.CanVent) { roleCouldUse = true; }
             else if (Guesser.Role != null && Guesser.Role == player && Guesser.CanVent) { roleCouldUse = true; }
             else if (Mesmer.Role != null && Mesmer.Role == player && Mesmer.CanVent) { roleCouldUse = true; }

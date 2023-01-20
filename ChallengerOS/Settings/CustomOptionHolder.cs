@@ -208,6 +208,7 @@ namespace ChallengerOS.Utils.Option
         
 
         public static CustomOption InforSpawnChance;
+        public static CustomOption InforRemainingTask;
         public static CustomOption InforCooldown;
         public static CustomOption InforAnalyseMod;
         public static CustomOption InforAnalyseTeam;
@@ -215,6 +216,10 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption BaitSpawnChance;
         public static CustomOption BaitReporttime;
         public static CustomOption BaitReporttimeRnd;
+        public static CustomOption BaitBalise;
+        public static CustomOption BaitBaliseTime;
+        
+        
         public static CustomOption BaitCanVent;
 
         public static CustomOption MentalistSpawnChance;
@@ -462,7 +467,7 @@ namespace ChallengerOS.Utils.Option
 
             NuclearTimerMod = CustomOption.Create(7, Types.P1, "> Nuclear Polus Mod", true, HIDE_Map);
             NuclearRND = CustomOption.Create(910, Types.P1, "> Nuclear Spawn Chance", 100f, 0f, 100f, 5f, NuclearTimerMod);
-            NuclearHide = CustomOption.Create(911, Types.P1, "> Hide Timer", true, NuclearTimerMod);
+            NuclearHide = CustomOption.Create(913, Types.P1, "> Show Nuclear timer", new string[] { "Nobody", "Everyone", "Only Impostor" }, NuclearTimerMod);
             NuclearTime1 = CustomOption.Create(8, Types.P1, "> Nuclear Timer", 90f, 60f, 360f, 5f, NuclearTimerMod);
             NuclearTimeRND = CustomOption.Create(912, Types.P1, "> Additional Random Time", 90f, 0f, 120f, 5f, NuclearTimerMod);
             NuclearTime2 = CustomOption.Create(9, Types.P1, "> Emergency Timer", 10f, 5f, 30f, 1f, NuclearTimerMod);
@@ -566,7 +571,6 @@ namespace ChallengerOS.Utils.Option
 
 
             //P3
-
             SherifSpawnChance = CustomOption.Create(200, Types.P3, cs(ChallengerMod.ColorTable.SheriffColor, "Sheriff Spawn Chance"), 100f, 0f, 100f, 5f, SherifAdd, true);
             Sherif2SpawnChance = CustomOption.Create(201, Types.P3, cs(ChallengerMod.ColorTable.SheriffColor, "Sheriff II Spawn Chance"), 0f, 0f, 100f, 5f, SherifAdd);
             Sherif3SpawnChance = CustomOption.Create(202, Types.P3, cs(ChallengerMod.ColorTable.SheriffColor, "Sheriff III Spawn Chance"), 0f, 0f, 100f, 5f, SherifAdd);
@@ -621,6 +625,7 @@ namespace ChallengerOS.Utils.Option
 
 
             InforSpawnChance = CustomOption.Create(310, Types.P3, cs(ChallengerMod.ColorTable.InformantColor, "Informant Spawn Chance"), 100f, 0f, 100f, 5f, InforAdd, true);
+            InforRemainingTask = CustomOption.Create(314, Types.P3, "> Remaining task to unlock ability", 5f, 0f, 15f, 1f, InforAdd, true);
             InforCooldown = CustomOption.Create(311, Types.P3, "> Analyse-Player Cooldown", 30f, 10f, 60f, 2.5f, InforAdd);
             InforAnalyseMod = CustomOption.Create(312, Types.P3, "> Analyne-Player Settings", new string[] { "Single Use", "Can be used\nonce per turn", "Usable at will" }, InforAdd);
             InforAnalyseTeam = CustomOption.Create(313, Types.P3, "> Analyne-Player Team", true, InforAdd);
@@ -628,6 +633,8 @@ namespace ChallengerOS.Utils.Option
             BaitSpawnChance = CustomOption.Create(320, Types.P3, cs(ChallengerMod.ColorTable.BaitColor, "Bait Spawn Chance"), 100f, 0f, 100f, 5f, BaitAdd, true);
             BaitReporttime = CustomOption.Create(321, Types.P3, "> Time Before Killer Self-Report", 1f, 1f, 10f, 1f, BaitAdd);
             BaitReporttimeRnd = CustomOption.Create(322, Types.P3, "> Random additionnal time", 0f, 0f, 10f, 1f, BaitAdd);
+            BaitBalise = CustomOption.Create(324, Types.P3, "> Balise Ability Enable", true, BaitAdd);
+            BaitBaliseTime = CustomOption.Create(325, Types.P3, "> Balise Cooldown", 30f, 10f, 60f, 2.5f, BaitBalise);
             BaitCanVent = CustomOption.Create(323, Types.P3, "> Can Use Vent", false, BaitAdd);
        
             MentalistSpawnChance = CustomOption.Create(330, Types.P3, cs(ChallengerMod.ColorTable.MentalistColor, "Mentalist Spawn Chance"), 100f, 0f, 100f, 5f, MentalistAdd, true);
@@ -809,13 +816,13 @@ namespace ChallengerOS.Utils.Option
             BasiliskSinglePetrify = CustomOption.Create(788, Types.P5, "> Target Affected once", true, BasiliskAdd);
             BasiliskCanVent = CustomOption.Create(789, Types.P5, "> Can Use vent", true, BasiliskAdd);
 
-            MesmerSpawnChance = CustomOption.Create(790, Types.P5, cs(ChallengerMod.ColorTable.MesmerColor, "Mesmer Spawn Chance"), 100f, 0f, 100f, 5f, MesmerAdd, true);
-             MesmerAbility = CustomOption.Create(791, Types.P5, "> Ability Avalaible Setting", new string[] { "Switch and\nMindControl", "Only Switch", "Only MindControl" }, MesmerAdd);
-             MesmerMindSingle = CustomOption.Create(792, Types.P5, "> MindControl One use per Round", true, MesmerAdd);
-             MesmerMindUse = CustomOption.Create(793, Types.P5, "> MindControl max Use", 2f, 0f, 10f, 1f, MesmerAdd);
-             MesmerMindCooldown = CustomOption.Create(794, Types.P5, "> Cooldown for MindControl", 30f, 10f, 60f, 2.5f, MesmerAdd);
-             MesmerMindDuration = CustomOption.Create(795, Types.P5, "> MindControl max Duration", 5f, 1f, 60f, 1f, MesmerAdd);
-             MesmerCanVent = CustomOption.Create(797, Types.P5, "> Can Use vent", true, MesmerAdd);
+            MesmerSpawnChance = CustomOption.Create(790, Types.P6, cs(ChallengerMod.ColorTable.MesmerColor, "Mesmer Spawn Chance"), 100f, 0f, 100f, 5f, MesmerAdd, true);
+             MesmerAbility = CustomOption.Create(791, Types.P6, "> Ability Avalaible Setting", new string[] { "Switch and\nMindControl", "Only Switch", "Only MindControl" }, MesmerAdd);
+             MesmerMindSingle = CustomOption.Create(792, Types.P6, "> MindControl One use per Round", true, MesmerAdd);
+             MesmerMindUse = CustomOption.Create(793, Types.P6, "> MindControl max Use", 2f, 0f, 10f, 1f, MesmerAdd);
+             MesmerMindCooldown = CustomOption.Create(794, Types.P6, "> Cooldown for MindControl", 30f, 10f, 60f, 2.5f, MesmerAdd);
+             MesmerMindDuration = CustomOption.Create(795, Types.P6, "> MindControl max Duration", 5f, 1f, 60f, 1f, MesmerAdd);
+             MesmerCanVent = CustomOption.Create(797, Types.P6, "> Can Use vent", true, MesmerAdd);
         }
     }
 }

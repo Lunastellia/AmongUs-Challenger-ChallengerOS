@@ -13,6 +13,8 @@ using static ChallengerMod.ColorTable;
 using static ChallengerMod.Challenger;
 using static ChallengerOS.Utils.Option.CustomOptionHolder;
 using ChallengerOS.RPC;
+using ChallengerOS.Objects;
+using static UnityEngine.GraphicsBuffer;
 
 namespace ChallengerMod.Patches
 {
@@ -133,14 +135,7 @@ namespace ChallengerMod.Patches
             }
         }
        
-        /* static void MorphlingButton(PlayerControl __instance)
-         {
-             if (Morphling.Role != null && PlayerControl.LocalPlayer == Morphling.Role)
-             { __instance.Data.RoleType = RoleTypes.Shapeshifter; }
-             else if (PlayerControl.LocalPlayer.Data.Role.IsImpostor) 
-             { __instance.Data.RoleType = RoleTypes.Impostor; }
-
-         }*/
+       
 
         static void ventColorUpdate()
         {
@@ -313,6 +308,18 @@ namespace ChallengerMod.Patches
             Sheriff1.currentTarget = setTarget();
             if (Sheriff1.currentTarget != null)
             setPlayerOutline(Sheriff1.currentTarget, ChallengerMod.ColorTable.SheriffColor);
+            bool targetBaitArea = false;
+            if (Sheriff1.currentTarget != null && Sheriff1.Role != null || Sheriff1.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Sheriff1.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Sheriff1.TargetBaitArea = targetBaitArea;
         }
         static void Sheriff2SetTarget()
         {
@@ -320,6 +327,18 @@ namespace ChallengerMod.Patches
             Sheriff2.currentTarget = setTarget();
             if (Sheriff2.currentTarget != null)
                 setPlayerOutline(Sheriff2.currentTarget, ChallengerMod.ColorTable.SheriffColor);
+            bool targetBaitArea = false;
+            if (Sheriff2.currentTarget != null && Sheriff2.Role != null || Sheriff2.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Sheriff2.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Sheriff2.TargetBaitArea = targetBaitArea;
         }
         static void Sheriff3SetTarget()
         {
@@ -327,6 +346,18 @@ namespace ChallengerMod.Patches
             Sheriff3.currentTarget = setTarget();
             if (Sheriff3.currentTarget != null)
                 setPlayerOutline(Sheriff3.currentTarget, ChallengerMod.ColorTable.SheriffColor);
+            bool targetBaitArea = false;
+            if (Sheriff3.currentTarget != null && Sheriff3.Role != null || Sheriff3.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Sheriff3.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Sheriff3.TargetBaitArea = targetBaitArea;
         }
         static void GuardianSetTarget()
         {
@@ -437,13 +468,20 @@ namespace ChallengerMod.Patches
             Outlaw.currentTarget = setTarget();
             if (Outlaw.currentTarget != null)
                 setPlayerOutline(Outlaw.currentTarget, ChallengerMod.ColorTable.OutlawColor);
+            bool targetBaitArea = false;
+            if (Outlaw.currentTarget != null && Outlaw.Role != null || Outlaw.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Outlaw.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Outlaw.TargetBaitArea = targetBaitArea;
         }
-       /* static void EaterSetTarget()
-        {
-            if (Eater.Role == null || Eater.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead) return;
-            Eater.deadbodyTarget = setTarget();
-            setPlayerOutline(Eater.deadbodyTarget, ChallengerMod.ColorTable.EaterColor);
-        }*/
+       
         static void ArsonistSetTarget()
         {
             if (Arsonist.Role == null || Arsonist.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead) return;
@@ -457,6 +495,18 @@ namespace ChallengerMod.Patches
             Mercenary.currentTarget = setTarget();
             if (Mercenary.currentTarget != null)
                 setPlayerOutline(Mercenary.currentTarget, ChallengerMod.ColorTable.MercenaryColor);
+            bool targetBaitArea = false;
+            if (Mercenary.currentTarget != null && Mercenary.Role != null || Mercenary.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Mercenary.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Mercenary.TargetBaitArea = targetBaitArea;
         }
         static void CopyCatSetTarget()
         {
@@ -474,6 +524,18 @@ namespace ChallengerMod.Patches
                 setPlayerOutline(CopyCat.currentTarget, ChallengerMod.ColorTable.HunterColor);
             if (CopyCat.currentTarget != null && CopyCat.CopyStart && CopyCat.copyRole == 12)
                 setPlayerOutline(CopyCat.currentTarget, ChallengerMod.ColorTable.InformantColor);
+            bool targetBaitArea = false;
+            if (CopyCat.currentTarget != null && CopyCat.Role != null || CopyCat.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, CopyCat.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            CopyCat.TargetBaitArea = targetBaitArea;
         }
         static void RevengerSetTarget()
         {
@@ -488,6 +550,18 @@ namespace ChallengerMod.Patches
             Assassin.currentTarget = setTarget();
             if (Assassin.currentTarget != null)
                 setPlayerOutline(Assassin.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Assassin.currentTarget != null && Assassin.Role != null || Assassin.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Assassin.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Assassin.TargetBaitArea = targetBaitArea;
         }
         static void VectorSetTarget()
         {
@@ -495,6 +569,18 @@ namespace ChallengerMod.Patches
             Vector.currentTarget = setTarget();
             if (Vector.currentTarget != null)
                 setPlayerOutline(Vector.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Vector.currentTarget != null && Vector.Role != null || Vector.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Vector.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Vector.TargetBaitArea = targetBaitArea;
         }
         static void MorphlingSetTarget()
         {
@@ -504,6 +590,18 @@ namespace ChallengerMod.Patches
                 setPlayerOutline(Morphling.currentTarget, ChallengerMod.ColorTable.MorphlingColor);
             if (Morphling.currentTarget != null && Morphling.Morph != null)
                 setPlayerOutline(Morphling.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Morphling.currentTarget != null && Morphling.Role != null || Morphling.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Morphling.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Morphling.TargetBaitArea = targetBaitArea;
         }
         static void ScramblerSetTarget()
         {
@@ -511,6 +609,18 @@ namespace ChallengerMod.Patches
             Scrambler.currentTarget = setTarget();
             if (Scrambler.currentTarget != null)
                 setPlayerOutline(Scrambler.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Scrambler.currentTarget != null && Scrambler.Role != null || Scrambler.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Scrambler.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Scrambler.TargetBaitArea = targetBaitArea;
         }
         static void BarghestSetTarget()
         {
@@ -518,6 +628,18 @@ namespace ChallengerMod.Patches
             Barghest.currentTarget = setTarget();
             if (Barghest.currentTarget != null)
                 setPlayerOutline(Barghest.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Barghest.currentTarget != null && Barghest.Role != null || Barghest.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Barghest.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Barghest.TargetBaitArea = targetBaitArea;
         }
         static void GhostSetTarget()
         {
@@ -525,6 +647,18 @@ namespace ChallengerMod.Patches
             Ghost.currentTarget = setTarget();
             if (Ghost.currentTarget != null)
                 setPlayerOutline(Ghost.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Ghost.currentTarget != null && Ghost.Role != null || Ghost.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Ghost.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Ghost.TargetBaitArea = targetBaitArea;
         }
         static void SorcererSetTarget()
         {
@@ -532,6 +666,18 @@ namespace ChallengerMod.Patches
             Sorcerer.currentTarget = setTarget();
             if (Sorcerer.currentTarget != null)
                 setPlayerOutline(Sorcerer.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Sorcerer.currentTarget != null && Sorcerer.Role != null || Sorcerer.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Sorcerer.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Sorcerer.TargetBaitArea = targetBaitArea;
         }
         static void GuesserSetTarget()
         {
@@ -539,6 +685,18 @@ namespace ChallengerMod.Patches
             Guesser.currentTarget = setTarget();
             if (Guesser.currentTarget != null)
                 setPlayerOutline(Guesser.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Guesser.currentTarget != null && Guesser.Role != null || Guesser.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Guesser.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Guesser.TargetBaitArea = targetBaitArea;
         }
         static void MesmerSetTarget()
         {
@@ -546,6 +704,18 @@ namespace ChallengerMod.Patches
             Mesmer.currentTarget = setTarget();
             if (Mesmer.currentTarget != null)
                 setPlayerOutline(Mesmer.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Mesmer.currentTarget != null && Mesmer.Role != null || Mesmer.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Mesmer.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Mesmer.TargetBaitArea = targetBaitArea;
         }
         static void BasiliskSetTarget()
         {
@@ -553,6 +723,18 @@ namespace ChallengerMod.Patches
             Basilisk.currentTarget = setTarget();
             if (Basilisk.currentTarget != null)
                 setPlayerOutline(Basilisk.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Basilisk.currentTarget != null && Basilisk.Role != null || Basilisk.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Basilisk.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Basilisk.TargetBaitArea = targetBaitArea;
         }
         static void ReaperSetTarget()
         {
@@ -560,6 +742,18 @@ namespace ChallengerMod.Patches
             Reaper.currentTarget = setTarget();
             if (Reaper.currentTarget != null)
                 setPlayerOutline(Reaper.currentTarget, ChallengerMod.ColorTable.ReaperColor);
+            bool targetBaitArea = false;
+            if (Reaper.currentTarget != null && Reaper.Role != null || Reaper.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Reaper.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Reaper.TargetBaitArea = targetBaitArea;
         }
         static void SaboteurSetTarget()
         {
@@ -567,6 +761,18 @@ namespace ChallengerMod.Patches
             Saboteur.currentTarget = setTarget();
             if (Saboteur.currentTarget != null)
                 setPlayerOutline(Saboteur.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Saboteur.currentTarget != null && Saboteur.Role != null || Saboteur.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Saboteur.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Saboteur.TargetBaitArea = targetBaitArea;
         }
         static void Impostor1SetTarget()
         {
@@ -574,6 +780,18 @@ namespace ChallengerMod.Patches
             Impostor1.currentTarget = setTarget();
             if (Impostor1.currentTarget != null)
                 setPlayerOutline(Impostor1.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Impostor1.currentTarget != null && Impostor1.Role != null || Impostor1.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Impostor1.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Impostor1.TargetBaitArea = targetBaitArea;
         }
         static void Impostor2SetTarget()
         {
@@ -581,6 +799,18 @@ namespace ChallengerMod.Patches
             Impostor2.currentTarget = setTarget();
             if (Impostor2.currentTarget != null)
                 setPlayerOutline(Impostor2.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Impostor2.currentTarget != null && Impostor2.Role != null || Impostor2.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Impostor2.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Impostor2.TargetBaitArea = targetBaitArea;
         }
         static void Impostor3SetTarget()
         {
@@ -588,6 +818,18 @@ namespace ChallengerMod.Patches
             Impostor3.currentTarget = setTarget();
             if (Impostor3.currentTarget != null)
                 setPlayerOutline(Impostor3.currentTarget, ChallengerMod.ColorTable.ImpostorColor);
+            bool targetBaitArea = false;
+            if (Impostor3.currentTarget != null && Impostor3.Role != null || Impostor3.Role == PlayerControl.LocalPlayer)
+            {
+                foreach (Balise B in Balise.balise)
+                {
+                    if (Vector2.Distance(B._balise.transform.position, Impostor3.currentTarget.transform.position) <= 1.2f) // POS OBJECTS DISTANCE
+                    {
+                        targetBaitArea = true;
+                    }
+                }
+            }
+            Impostor3.TargetBaitArea = targetBaitArea;
         }
 
         
@@ -616,6 +858,7 @@ namespace ChallengerMod.Patches
                 assassinFootPrints();
                 trackerSetTarget();
                 baitUpdate();
+                Balise.UpdateAll();
 
                 setBasePlayerOutlines();
                 ventColorUpdate();
