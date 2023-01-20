@@ -18,6 +18,7 @@ using Reactor.Extensions;
 using ChallengerOS.Utils.Option;
 using static ChallengerOS.Utils.Option.CustomOptionHolder;
 using ChallengerOS.Utils;
+using ChallengerOS.Objects;
 
 namespace ChallengerOS.RPC
 {
@@ -223,7 +224,7 @@ namespace ChallengerOS.RPC
             var t = targetId == Byte.MaxValue ? null : Helpers.playerById(targetId).Data;
             if (source != null) source.ReportDeadBody(t);
         }
-
+       
 
     }
 
@@ -295,7 +296,7 @@ namespace ChallengerOS.RPC
                     byte reportTarget = reader.ReadByte();
                     RPCProcedure.uncheckedCmdReportDeadBody(reportSource, reportTarget);
                     break;
-
+                
             }
         }
     }

@@ -208,8 +208,6 @@ namespace ChallengerOS.Versioncheck
                     }
                 }
 
-
-
             }
         }
 

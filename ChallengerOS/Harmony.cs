@@ -27,7 +27,7 @@ namespace ChallengerOS
     public class HarmonyMain : BasePlugin
     {
         
-        public const string VersionString = "5.1.3";
+        public const string VersionString = "5.1.4";
         public static ConfigFile OPSettings { get; private set; }
 
         public static System.Version Version = System.Version.Parse(VersionString);
