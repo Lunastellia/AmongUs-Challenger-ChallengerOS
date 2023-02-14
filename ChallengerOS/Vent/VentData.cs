@@ -1,17 +1,9 @@
 ﻿using HarmonyLib;
 using static ChallengerMod.Roles;
 using UnityEngine;
-using ChallengerMod;
-using static Il2CppSystem.Net.TimerThread;
-using static ChallengerMod.Set.Data;
 using static ChallengerMod.Challenger;
 using ChallengerOS.Utils;
 using Hazel;
-using System;
-using System.Collections.Generic;
-using static ChallengerMod.HarmonyMain;
-using System.Linq;
-using static ChallengerOS.Utils.Option.CustomOptionHolder;
 using static ChallengerOS.Utils.Helpers;
 using ChallengerOS.RPC;
 using static ChallengerMod.Unity;

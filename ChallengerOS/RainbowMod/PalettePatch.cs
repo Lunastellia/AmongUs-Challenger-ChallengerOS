@@ -141,8 +141,6 @@ namespace ChallengerOS.RainbowPlugin
                 new Color32(125, 125, 125, byte.MaxValue),//TrueGrey
                 new Color32(15, 15, 15, byte.MaxValue), //TrueBlack
                 new Color32(0, 0, 0, byte.MaxValue), //Rainbow
-
-
                 
             };
         }

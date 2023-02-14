@@ -1,25 +1,18 @@
 using HarmonyLib;
-using System;
-using Hazel;
 using UnityEngine;
 using System.Linq;
 using static ChallengerMod.Challenger;
-using static ChallengerMod.Unity;
 using static ChallengerMod.Roles;
-using static ChallengerMod.ColorTable;
 using static ChallengerMod.Set.Data;
-using ChallengerMod.RPC;
-using System.Collections.Generic;
 using PowerTools;
 using ChallengerOS.Utils;
-using static ChallengerOS.Utils.Option.CustomOptionHolder;
 
 namespace ChallengerOS.VentPatch
 {
 
-    
 
-    
+
+
 
     [HarmonyPatch(typeof(VentButton), nameof(VentButton.DoClick))]
     class VentButtonDoClickPatch

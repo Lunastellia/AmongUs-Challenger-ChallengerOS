@@ -1,15 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using BepInEx.Configuration;
-using System;
-using System.Linq;
-using HarmonyLib;
-using Hazel;
-using System.Reflection;
-using System.Text;
 using Types = ChallengerOS.Utils.Option.CustomOption.CustomOptionType;
-using ChallengerOS.Utils.Option;
-using static ChallengerMod.Set.Data;
 
 namespace ChallengerOS.Utils.Option
 {
@@ -27,7 +18,6 @@ namespace ChallengerOS.Utils.Option
 
         public static CustomOption presetSelection;
         public static CustomOption Ranked;
-        public static CustomOption RankedInt;
         public static CustomOption HIDE_Sheriff;
         public static CustomOption HIDE_Map;
 
@@ -103,6 +93,7 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption MateAdd;
         public static CustomOption LawkeeperAdd;
         public static CustomOption FakeAdd;
+        public static CustomOption LeaderAdd;
 
         public static CustomOption CupidAdd;
         public static CustomOption CultisteAdd;
@@ -214,13 +205,15 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption InforAnalyseTeam;
 
         public static CustomOption BaitSpawnChance;
+        public static CustomOption BaitReport;
         public static CustomOption BaitReporttime;
         public static CustomOption BaitReporttimeRnd;
+        public static CustomOption BaitStuns;
         public static CustomOption BaitBalise;
         public static CustomOption BaitBaliseTime;
-        
-        
         public static CustomOption BaitCanVent;
+
+        
 
         public static CustomOption MentalistSpawnChance;
         public static CustomOption MentalistAbility;
@@ -250,14 +243,14 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption LKInfo;
         public static CustomOption SuperInfo;
 
-
-
         public static CustomOption FakeSpawnChance;
         public static CustomOption ImpostorCanKillFake;
         public static CustomOption FakeCanVent;
 
-
-
+        public static CustomOption LeaderSpawnChance;
+        public static CustomOption LeaderTaskEnd;
+        public static CustomOption LeaderAffectCupid;
+        
 
         //P4 - Hybrid / Sprécial
 
@@ -428,7 +421,28 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption ROLE_name;
         public static CustomOption TEST_cd;
         public static CustomOption TEST_str;
-        public static CustomOption TEST_yn; 
+        public static CustomOption TEST_yn;
+
+        public static CustomOption Color_Bloody; //AC_C1
+        public static CustomOption Color_Earth; //AC_C2
+        public static CustomOption Color_Chedard; //AC_C3
+        public static CustomOption Color_Sun; //AC_C4
+        public static CustomOption Color_Leef; //AC_C5
+        public static CustomOption Color_Radian; //AC_C6
+        public static CustomOption Color_Swamp; //AC_C7
+        public static CustomOption Color_Ice; //AC_C8
+        public static CustomOption Color_Lagoon; //AC_C9
+        public static CustomOption Color_Ocean; //AC_C10
+        public static CustomOption Color_Night; //AC_C11
+        public static CustomOption Color_Dawn; //AC_C12
+        public static CustomOption Color_Candy; //AC_C13
+        public static CustomOption Color_Galaxy; //AC_C14
+        public static CustomOption Color_Snow; //AC_C15
+        public static CustomOption Color_Cender; //AC_C16
+        public static CustomOption Color_Dark; //AC_C17
+        public static CustomOption Color_Rainbow; //AC_C18
+
+
 
 
         internal static Dictionary<byte, byte[]> blockedRolePairings = new Dictionary<byte, byte[]>();
@@ -449,11 +463,27 @@ namespace ChallengerOS.Utils.Option
             //P1
             presetSelection = CustomOption.Create(0, Types.P6, cs(ChallengerMod.ColorTable.EaterColor, "PRESET"), presets, null, true);
             Ranked = CustomOption.Create(900, Types.P6, "RANKED", false);
-            RankedInt = CustomOption.Create(902, Types.P6, "> INT", 0f, 0f, 100f, 1f, Ranked);
             HIDE_Map = CustomOption.Create(903, Types.P6, "HM", false);
             HIDE_Sheriff = CustomOption.Create(904, Types.P6, "HR", false);
 
-
+           /* Color_Bloody = CustomOption.Create(2001, Types.P1, "Color_Bloody", 0f, 0f, 11f, 1f, null);
+            Color_Earth = CustomOption.Create(2002, Types.P1, "Color_Earth", 0f, 0f, 11f, 1f, null);
+            Color_Chedard = CustomOption.Create(2003, Types.P1, "Color_Chedard", 0f, 0f, 11f, 1f, null);
+            Color_Sun = CustomOption.Create(2004, Types.P1, "Color_Sun", 0f, 0f, 11f, 1f, null);
+            Color_Leef = CustomOption.Create(2005, Types.P1, "Color_Leef", 0f, 0f, 11f, 1f, null);
+            Color_Radian = CustomOption.Create(2006, Types.P1, "Color_Radian", 0f, 0f, 11f, 1f, null);
+            Color_Swamp = CustomOption.Create(2007, Types.P1, "Color_Swamp", 0f, 0f, 11f, 1f, null);
+            Color_Ice = CustomOption.Create(2008, Types.P1, "Color_Ice", 0f, 0f, 11f, 1f, null);
+            Color_Lagoon = CustomOption.Create(2009, Types.P1, "Color_Lagoon", 0f, 0f, 11f, 1f, null);
+            Color_Ocean = CustomOption.Create(2010, Types.P1, "Color_Ocean", 0f, 0f, 11f, 1f, null);
+            Color_Night = CustomOption.Create(2011, Types.P1, "Color_Night", 0f, 0f, 11f, 1f, null);
+            Color_Dawn = CustomOption.Create(2012, Types.P1, "Color_Dawn", 0f, 0f, 11f, 1f, null);
+            Color_Candy = CustomOption.Create(2013, Types.P1, "Color_Candy", 0f, 0f, 11f, 1f, null);
+            Color_Galaxy = CustomOption.Create(2014, Types.P1, "Color_Galaxy", 0f, 0f, 11f, 1f, null);
+            Color_Snow = CustomOption.Create(2015, Types.P1, "Color_Snow", 0f, 0f, 11f, 1f, null);
+            Color_Cender = CustomOption.Create(2016, Types.P1, "Color_Cender", 0f, 0f, 11f, 1f, null);
+            Color_Dark = CustomOption.Create(2017, Types.P1, "Color_Dark", 0f, 0f, 11f, 1f, null);
+            Color_Rainbow = CustomOption.Create(2018, Types.P1, "Color_Rainbow", 0f, 0f, 11f, 1f, null);*/
 
             // Debugg = CustomOption.Create(901, Types.P1, cs(ChallengerMod.ColorTable.RedColor, "(DEBUGG) ") + " -", new string[] { cs(ChallengerMod.ColorTable.WhiteColor, "Disables"), cs(ChallengerMod.ColorTable.YellowColor, "Enabled") }, null, true);
 
@@ -469,8 +499,8 @@ namespace ChallengerOS.Utils.Option
             NuclearRND = CustomOption.Create(910, Types.P1, "> Nuclear Spawn Chance", 100f, 0f, 100f, 5f, NuclearTimerMod);
             NuclearHide = CustomOption.Create(913, Types.P1, "> Show Nuclear timer", new string[] { "Nobody", "Everyone", "Only Impostor" }, NuclearTimerMod);
             NuclearTime1 = CustomOption.Create(8, Types.P1, "> Nuclear Timer", 90f, 60f, 360f, 5f, NuclearTimerMod);
-            NuclearTimeRND = CustomOption.Create(912, Types.P1, "> Additional Random Time", 90f, 0f, 120f, 5f, NuclearTimerMod);
-            NuclearTime2 = CustomOption.Create(9, Types.P1, "> Emergency Timer", 10f, 5f, 30f, 1f, NuclearTimerMod);
+            NuclearTimeRND = CustomOption.Create(912, Types.P1, "> Additional Random Time", 90f, 0f, 180f, 5f, NuclearTimerMod);
+            NuclearTime2 = CustomOption.Create(9, Types.P1, "> Emergency Timer", 10f, 10f, 30f, 1f, NuclearTimerMod);
 
             BetterTaskWeapon = CustomOption.Create(10, Types.P1, cs(ChallengerMod.ColorTable.SheriffColor, "(Task) ") + "Weapon smaller asteroid", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") }, null, true);
             BetterTaskWire = CustomOption.Create(11, Types.P6, cs(ChallengerMod.ColorTable.SheriffColor, "(Task) ") + "More Eletric Wires (x8)", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") }, null);
@@ -479,9 +509,9 @@ namespace ChallengerOS.Utils.Option
             NoOxySabotage = CustomOption.Create(32, Types.P6, cs(ChallengerMod.ColorTable.DictatorColor, "(Sabotage) ") + "Oxygen fainting Effect", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") }, null);
             CommsSabotageAnonymous = CustomOption.Create(33, Types.P1, cs(ChallengerMod.ColorTable.DictatorColor, "(Sabotage) ") + "Coms Unknown Player", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") }, null, true);
 
-            DisabledAdmin = CustomOption.Create(40, Types.P1, cs(ChallengerMod.ColorTable.SentinelColor, "(Survey) ") + "Admin Table Available", new string[] { cs(ChallengerMod.ColorTable.TrackedColor, "Yes"), cs(ChallengerMod.ColorTable.BuffedColor, "Never"), cs(ChallengerMod.ColorTable.SheriffColor, "Only for") + cs(ChallengerMod.ColorTable.CrewColor, "\nCrewmate"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n1 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n4 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n5 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n6 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n7 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n8 Player die"), }, null, true);
-            DisabledVitales = CustomOption.Create(41, Types.P1, cs(ChallengerMod.ColorTable.SentinelColor, "(Survey) ") + "Vitales Available", new string[] { cs(ChallengerMod.ColorTable.TrackedColor, "Yes"), cs(ChallengerMod.ColorTable.BuffedColor, "Never"), cs(ChallengerMod.ColorTable.SheriffColor, "Only for") + cs(ChallengerMod.ColorTable.CrewColor, "\nCrewmate"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n1 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n4 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n5 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n6 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n7 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n8 Player die"), }, null);
-            DisabledCamera = CustomOption.Create(42, Types.P1, cs(ChallengerMod.ColorTable.SentinelColor, "(Survey) ") + "Camera Available", new string[] { cs(ChallengerMod.ColorTable.TrackedColor, "Yes"), cs(ChallengerMod.ColorTable.BuffedColor, "Never"), cs(ChallengerMod.ColorTable.SheriffColor, "Only for") + cs(ChallengerMod.ColorTable.CrewColor, "\nCrewmate"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n1 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n4 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n5 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n6 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n7 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n8 Player die"), }, null);
+            DisabledAdmin = CustomOption.Create(40, Types.P1, cs(ChallengerMod.ColorTable.SentinelColor, "(Utility) ") + "Admin Table Available", new string[] { cs(ChallengerMod.ColorTable.TrackedColor, "Yes"), cs(ChallengerMod.ColorTable.BuffedColor, "Never"), cs(ChallengerMod.ColorTable.SheriffColor, "Only for") + cs(ChallengerMod.ColorTable.CrewColor, "\nCrewmate"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n1 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n4 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n5 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n6 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n7 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n8 Player die"), }, null, true);
+            DisabledVitales = CustomOption.Create(41, Types.P1, cs(ChallengerMod.ColorTable.SentinelColor, "(Utility) ") + "Vitales Available", new string[] { cs(ChallengerMod.ColorTable.TrackedColor, "Yes"), cs(ChallengerMod.ColorTable.BuffedColor, "Never"), cs(ChallengerMod.ColorTable.SheriffColor, "Only for") + cs(ChallengerMod.ColorTable.CrewColor, "\nCrewmate"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n1 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n4 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n5 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n6 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n7 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n8 Player die"), }, null);
+            DisabledCamera = CustomOption.Create(42, Types.P1, cs(ChallengerMod.ColorTable.SentinelColor, "(Utility) ") + "Camera Available", new string[] { cs(ChallengerMod.ColorTable.TrackedColor, "Yes"), cs(ChallengerMod.ColorTable.BuffedColor, "Never"), cs(ChallengerMod.ColorTable.SheriffColor, "Only for") + cs(ChallengerMod.ColorTable.CrewColor, "\nCrewmate"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n1 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n2 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n4 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n5 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n6 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n7 Player die"), cs(ChallengerMod.ColorTable.JesterColor, "Only if") + cs(ChallengerMod.ColorTable.BuffedColor, "\n8 Player die"), }, null);
 
             AdminTimeOn = CustomOption.Create(43, Types.P1, cs(ChallengerMod.ColorTable.SentinelColor, "(Utility) ") + "Admin Limited time", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") + cs(ChallengerMod.ColorTable.LovedColor, "\n(Single)"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") + cs(ChallengerMod.ColorTable.LovedColor, "\n(Round)") }, null);
             AdminTime = CustomOption.Create(44, Types.P1, "> Timer", 30f, 1f, 60f, 1f, AdminTimeOn);
@@ -540,6 +570,8 @@ namespace ChallengerOS.Utils.Option
             MateAdd = CustomOption.Create(71, Types.P2, cs(ChallengerMod.ColorTable._InvestigatorColor, "★ ") + cs(ChallengerMod.ColorTable.CrewColor, "Teammate"), addrole, QTCrew);
             LawkeeperAdd = CustomOption.Create(72, Types.P2, cs(ChallengerMod.ColorTable._InvestigatorColor, "★ ") + cs(ChallengerMod.ColorTable.LawkeeperColor, "Lawkeeper"), addrole, QTCrew);
             FakeAdd = CustomOption.Create(73, Types.P2, cs(ChallengerMod.ColorTable._SupportColor, "✚ ") + cs(ChallengerMod.ColorTable.FakeColor, "Fake"), addrole, QTCrew);
+            LeaderAdd = CustomOption.Create(74, Types.P2, cs(ChallengerMod.ColorTable._InvestigatorColor, "★ ") + cs(ChallengerMod.ColorTable.LeaderColor, "Leader"), addrole, QTCrew);
+
 
             QTSpe = CustomOption.Create(51, Types.P2, cs(ChallengerMod.ColorTable.LovedColor, "SPECIAL ROLE QUANTITY"), 0f, 0f, 6f, 1f, null, true);
             CupidAdd = CustomOption.Create(90, Types.P2, cs(ChallengerMod.ColorTable.CupidColor, "♥ ") + cs(ChallengerMod.ColorTable.CupidColor, "Cupid"), addrole, QTSpe);
@@ -631,12 +663,14 @@ namespace ChallengerOS.Utils.Option
             InforAnalyseTeam = CustomOption.Create(313, Types.P3, "> Analyne-Player Team", true, InforAdd);
 
             BaitSpawnChance = CustomOption.Create(320, Types.P3, cs(ChallengerMod.ColorTable.BaitColor, "Bait Spawn Chance"), 100f, 0f, 100f, 5f, BaitAdd, true);
-            BaitReporttime = CustomOption.Create(321, Types.P3, "> Time Before Killer Self-Report", 1f, 1f, 10f, 1f, BaitAdd);
-            BaitReporttimeRnd = CustomOption.Create(322, Types.P3, "> Random additionnal time", 0f, 0f, 10f, 1f, BaitAdd);
-            BaitBalise = CustomOption.Create(324, Types.P3, "> Balise Ability Enable", true, BaitAdd);
-            BaitBaliseTime = CustomOption.Create(325, Types.P3, "> Balise Cooldown", 30f, 10f, 60f, 2.5f, BaitBalise);
+            BaitReport = CustomOption.Create(326, Types.P3, "> Bait Killing Ability", new string[] { "Killer Stuns\nOnly", "Killer Report\nOnly", "Killer Stuns\nAnd Report" }, BaitAdd);
+            BaitReporttime = CustomOption.Create(321, Types.P3, "> Time Before Killer Self-Report", 1f, 1f, 10f, 1f, BaitReport);
+            BaitReporttimeRnd = CustomOption.Create(322, Types.P3, "> Random additionnal time", 0f, 0f, 10f, 1f, BaitReport);
+            BaitStuns = CustomOption.Create(327, Types.P3, "> Killer Stuns Duration", 5f, 1f, 20f, 1f, BaitAdd);
+            BaitBalise = CustomOption.Create(324, Types.P3, "> Number of WarnArea", 3f, 0f, 5f, 1f, BaitAdd);
+            BaitBaliseTime = CustomOption.Create(325, Types.P3, "> WarnArea Cooldown", 30f, 10f, 60f, 2.5f, BaitBalise);
             BaitCanVent = CustomOption.Create(323, Types.P3, "> Can Use Vent", false, BaitAdd);
-       
+
             MentalistSpawnChance = CustomOption.Create(330, Types.P3, cs(ChallengerMod.ColorTable.MentalistColor, "Mentalist Spawn Chance"), 100f, 0f, 100f, 5f, MentalistAdd, true);
             MentalistAbility = CustomOption.Create(331, Types.P3, "> Mentalist Ability", new string[] { "Admin Color\nOnly", "Vote Color\nOnly", "Admin + Vote\nColor" }, MentalistAdd);
             AdminSetting = CustomOption.Create(332, Types.P3, "> Admin Table Color Settings", new string[] { "Single Use", "Can be used\nonce per turn" }, MentalistAdd);
@@ -670,6 +704,10 @@ namespace ChallengerOS.Utils.Option
             FakeSpawnChance = CustomOption.Create(390, Types.P3, cs(ChallengerMod.ColorTable.FakeColor, "Fake Spawn Chance"), 100f, 0f, 100f, 5f, FakeAdd, true);
             ImpostorCanKillFake = CustomOption.Create(391, Types.P3, "> Impostors can Kill Fake & Other Impostors", false, FakeAdd);
             FakeCanVent = CustomOption.Create(392, Types.P3, "> Can Use Vent", false, FakeAdd);
+
+            LeaderSpawnChance = CustomOption.Create(400, Types.P3, cs(ChallengerMod.ColorTable.LeaderColor, "Leader Spawn Chance"), 100f, 0f, 100f, 5f, LeaderAdd, true);
+            LeaderTaskEnd = CustomOption.Create(402, Types.P3, "> Ability Enable if all Task completed", true, LeaderAdd);
+            LeaderAffectCupid = CustomOption.Create(403, Types.P3, "> Target Cupid can Mark a crewmate", false, LeaderAdd);
             
             //P4
 
@@ -680,7 +718,7 @@ namespace ChallengerOS.Utils.Option
             CultisteCooldown = CustomOption.Create(511, Types.P4, "> Cooldown for use convert", 30f, 10f, 60f, 2.5f, CultisteAdd);
             CulteMember = CustomOption.Create(512, Types.P4, "> Max culte member", 2f, 1f, 3f, 1f, CultisteAdd);
             Cultistdie = CustomOption.Create(513, Types.P4, "> When convert fail Cultist die", new string[] { "Disabled", "Immediately", "At the next\nmeeting" }, CultisteAdd);
-
+            
 
             JesterSpawnChance = CustomOption.Create(520, Types.P4, cs(ChallengerMod.ColorTable.JesterColor, "Jester Spawn Chance"), 100f, 0f, 100f, 5f, JesterAdd, true);
             JesterCooldown = CustomOption.Create(521, Types.P4, "> Fake-Kill Ability Cooldown", 30f, 10f, 60f, 2.5f, JesterAdd);

@@ -27,7 +27,39 @@ public class RainbowUtils
     {
         rend.material.SetColor(BackColor, RainbowShadow);
         rend.material.SetColor(BodyColor, Rainbow);
-        rend.material.SetColor(VisorColor, Palette.VisorColor);
+        if (ChallengerMod.Challenger.LoverEvent)
+        {
+            rend.material.SetColor(VisorColor, ChallengerMod.ColorTable.CupidColor);
+        }
+        else
+        {
+            rend.material.SetColor(VisorColor, Palette.VisorColor);
+        }
+        
+    }
+    public static void SetColorRed(Renderer rend)
+    {
+        /*if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 0) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Default); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 1) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Red); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 2) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Orange); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 3) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Yellow); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 4) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Lime); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 5) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Green); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 6) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Cyan); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 7) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Blue); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 8) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Pink); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 9) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Purple); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 10) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.White); }
+        if (ChallengerOS.Utils.Option.CustomOptionHolder.Color_Bloody.getFloat() == 11) { rend.material.SetColor(VisorColor, ChallengerMod.Cosmetics.VisorColor.Black); }*/
+
+         if (ChallengerMod.Challenger.LoverEvent)
+        {
+            rend.material.SetColor(VisorColor, ChallengerMod.ColorTable.CupidColor);
+        }
+        else
+        {
+            rend.material.SetColor(VisorColor, Palette.VisorColor);
+        }
     }
 
     public static bool IsRainbow(int id)
@@ -36,6 +68,17 @@ public class RainbowUtils
         {
             return (int)Palette.ColorNames[id] == 999999;
         } catch
+        {
+            return false;
+        }
+    }
+    public static bool IsRed(int id)
+    {
+        try
+        {
+            return (int)Palette.ColorNames[id] < 999999;
+        }
+        catch
         {
             return false;
         }

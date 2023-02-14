@@ -1,29 +1,20 @@
 ﻿using HarmonyLib;
 using Hazel;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
-using ChallengerMod.Patches;
 using ChallengerOS.Versioncheck;
 using static ChallengerMod.Challenger;
 using static ChallengerMod.Unity;
 using static ChallengerMod.Roles;
-using static ChallengerMod.ColorTable;
-using static ChallengerMod.ResetData;
-using static ChallengerMod.WinData;
-using static ChallengerMod.Set.Data;
-using ChallengerMod.Item;
-using Reactor.Extensions;
 using ChallengerOS.Utils.Option;
 using static ChallengerOS.Utils.Option.CustomOptionHolder;
 using ChallengerOS.Utils;
-using ChallengerOS.Objects;
 
 namespace ChallengerOS.RPC
 {
-    
-    
+
+
 
 
     enum CustomRPC
@@ -38,7 +29,8 @@ namespace ChallengerOS.RPC
         GuesserShoot,
         GuesserFail,
         UncheckedCmdReportDeadBody,
-
+        SetLover1,
+        SetLover2,
 
 
     }
@@ -224,9 +216,38 @@ namespace ChallengerOS.RPC
             var t = targetId == Byte.MaxValue ? null : Helpers.playerById(targetId).Data;
             if (source != null) source.ReportDeadBody(t);
         }
-       
+        public static void setLover1(byte loved1Id)
+        {
+            
+            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            {
+                if (player.PlayerId == loved1Id)
+                {
+                    Cupid.Lover1 = player;
+                    GLMod.GLMod.currentGame.addAction(Cupid.Role.Data.PlayerName, player.Data.PlayerName, "make_love");
+                }
+            }
 
+            Cupid.Love1Used = true;
+        }
+        public static void setLover2(byte loved2Id)
+        {
+            
+            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            {
+                if (player.PlayerId == loved2Id)
+                {
+                    Cupid.Lover2 = player;
+                    GLMod.GLMod.currentGame.addAction(Cupid.Role.Data.PlayerName, player.Data.PlayerName, "make_love");
+
+                }
+
+            }
+            Cupid.Love2Used = true;
+            Cupid.Love1Used = true;
+        }
     }
+
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class HandleRpcPatch
@@ -296,7 +317,17 @@ namespace ChallengerOS.RPC
                     byte reportTarget = reader.ReadByte();
                     RPCProcedure.uncheckedCmdReportDeadBody(reportSource, reportTarget);
                     break;
-                
+                //CUPID
+                case (byte)CustomRPC.SetLover1:
+                    {
+                        RPCProcedure.setLover1(reader.ReadByte());
+                        break;
+                    }
+                case (byte)CustomRPC.SetLover2:
+                    {
+                        RPCProcedure.setLover2(reader.ReadByte());
+                        break;
+                    }
             }
         }
     }

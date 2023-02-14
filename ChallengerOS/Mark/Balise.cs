@@ -10,11 +10,6 @@ namespace ChallengerOS.Objects
         public GameObject _balise;
         public GameObject background;
 
-        public static Sprite garlicSprite;
-
-        public static Sprite backgroundSprite;
-       
-
         public Balise(Vector2 p)
         {
             _balise = new GameObject("BaitAreaSpawn") { layer = 11 };
@@ -24,8 +19,8 @@ namespace ChallengerOS.Objects
             _balise.transform.position = position;
             background.transform.localPosition = new Vector3(0, 0, -1f); // before player
 
-            var garlicRenderer = _balise.AddComponent<SpriteRenderer>();
-            garlicRenderer.sprite = ChallengerMod.Unity.empty;
+            var SpawnSprite = _balise.AddComponent<SpriteRenderer>();
+            SpawnSprite.sprite = ChallengerMod.Unity.empty;
             var backgroundRenderer = background.AddComponent<SpriteRenderer>();
             backgroundRenderer.sprite = ChallengerMod.Unity.empty;
 

@@ -1,13 +1,9 @@
 using HarmonyLib;
 using System;
-using static ChallengerMod.Challenger;
-using static ChallengerMod.Unity;
 using static ChallengerMod.Roles;
-using static ChallengerMod.ColorTable;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Hazel;
 using ChallengerMod.RoleInfos;
 using static ChallengerMod.Set.Data;
 
@@ -183,6 +179,7 @@ namespace ChallengerOS.Intropatch
                         __instance.RoleText.color = roleInfo.color;
                         __instance.RoleBlurbText.text = "<size=2>" + roleInfo.introDescription + "</size>";
                         __instance.RoleBlurbText.color = roleInfo.color;
+                        ChallengerMod.Challenger.IntroScreen = true;
                     }
                     else if (Teammate2.Role != null && PlayerControl.LocalPlayer == Teammate2.Role)
                     {
@@ -190,6 +187,7 @@ namespace ChallengerOS.Intropatch
                         __instance.RoleText.color = roleInfo.color;
                         __instance.RoleBlurbText.text = "<size=2>" + roleInfo.introDescription + "</size>";
                         __instance.RoleBlurbText.color = roleInfo.color;
+                        ChallengerMod.Challenger.IntroScreen = true;
                     }
                     else
                     {
@@ -197,14 +195,9 @@ namespace ChallengerOS.Intropatch
                         __instance.RoleText.color = roleInfo.color;
                         __instance.RoleBlurbText.text = "<size=2>" + roleInfo.introDescription + "</size>";
                         __instance.RoleBlurbText.color = roleInfo.color;
+                        ChallengerMod.Challenger.IntroScreen = true;
                     }
-                    
-
-
-                    
-                    //Common Set
                 }
-                
             }
             public static bool Prefix(IntroCutscene __instance)
             {
