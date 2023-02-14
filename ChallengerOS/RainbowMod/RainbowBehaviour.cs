@@ -22,6 +22,10 @@ namespace ChallengerOS.RainbowPlugin
             {
                 RainbowUtils.SetRainbow(Renderer);
             }
+            if (RainbowUtils.IsRed(Id))
+            {
+                RainbowUtils.SetColorRed(Renderer);
+            }
         }
 
         public RainbowBehaviour(IntPtr ptr) : base(ptr) { }

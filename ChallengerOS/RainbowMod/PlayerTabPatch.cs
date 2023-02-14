@@ -1,19 +1,29 @@
 ﻿using System;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ChallengerOS.RainbowPlugin
 {
     [HarmonyPatch(typeof(PlayerTab))]
     public static class PlayerTabPatch
     {
-        [HarmonyPostfix]
+
+       
+
+            [HarmonyPostfix]
         [HarmonyPatch(nameof(PlayerTab.OnEnable))]
         public static void OnEnablePostfix(PlayerTab __instance)
         {
            
+
+
+
             
+
+
             
+
             for (int i = 0; i < __instance.ColorChips.Count; i++)
             {
                 var colorChip = __instance.ColorChips[i];
@@ -346,22 +356,20 @@ namespace ChallengerOS.RainbowPlugin
                             Z.sprite = ChallengerMod.Unity.ColorUnlock;
                         }
                     }
-
-
-
-
-
                 }
-
-                
 
             }
         }
+
+
+        
+        
 
         [HarmonyPostfix]
         [HarmonyPatch(nameof(PlayerTab.Update))]
         public static void UpdatePostfix(PlayerTab __instance)
         {
+
             for (int i = 0; i < __instance.ColorChips.Count; i++)
             {
                 if (RainbowUtils.IsRainbow(i))
@@ -369,6 +377,7 @@ namespace ChallengerOS.RainbowPlugin
                     __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Rainbow;
                     break;
                 }
+                
             }
 
         }

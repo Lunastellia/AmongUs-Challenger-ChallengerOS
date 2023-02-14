@@ -2,49 +2,357 @@
 using UnhollowerBaseLib;
 using static ChallengerMod.Set.Data;
 
-namespace ChallengerOS.RainbowMod
+namespace ChallengerOS.RainbowPlugin
 {
-    [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetString),
-        new[] { typeof(StringNames), typeof(Il2CppReferenceArray<Il2CppSystem.Object>) })]
-    public class PatchColours
+    [HarmonyPatch]
+    public static class CustomColorPatches
     {
-        public static bool Prefix(ref string __result, [HarmonyArgument(0)] StringNames name)
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetString), new[] {
+                typeof(StringNames),
+                typeof(Il2CppReferenceArray<Il2CppSystem.Object>)
+            })]
+        private class ColorStringPatch
         {
-            var newResult = (int)name switch
+            [HarmonyPriority(Priority.Last)]
+            public static bool Prefix(ref string __result, [HarmonyArgument(0)] StringNames name)
             {
+                if ((int)name >= 50000)
+                {
+                    if (ChallengerMod.Challenger.LangGameSet == 2f || (Playerlang == "French" && ChallengerMod.Challenger.LangGameSet == 0f))
+                    {
+                        if ((int)name == 999982)
+                        {
+                            string text = "Sanguin";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999983)
+                        {
+                            string text = "Terre";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999984)
+                        {
+                            string text = "Cheddar";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999985)
+                        {
+                            string text = "Soleil";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999986)
+                        {
+                            string text = "Feuille";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999987)
+                        {
+                            string text = "Radian";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999988)
+                        {
+                            string text = "Marais";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999989)
+                        {
+                            string text = "Glace";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999990)
+                        {
+                            string text = "Lagon";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999991)
+                        {
+                            string text = "Océan";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999992)
+                        {
+                            string text = "Nuit";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999993)
+                        {
+                            string text = "Aube";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999994)
+                        {
+                            string text = "Bonbon";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999995)
+                        {
+                            string text = "Galaxie";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999996)
+                        {
+                            string text = "Neige";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999997)
+                        {
+                            string text = "Cendre";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999998)
+                        {
+                            string text = "Obscur";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999999)
+                        {
+                            string text = "Arc-En-Ciel";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                    }
+                    else
+                    { 
+                        if ((int)name == 999982)
+                        {
+                            string text = "Blooby";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999983)
+                        {
+                            string text = "Earth";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999984)
+                        {
+                            string text = "Chedard";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999985)
+                        {
+                            string text = "Sun";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999986)
+                        {
+                            string text = "Leef";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999987)
+                        {
+                            string text = "Radian";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999988)
+                        {
+                            string text = "Swamp";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999989)
+                        {
+                            string text = "Ice";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999990)
+                        {
+                            string text = "Lagoon";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999991)
+                        {
+                            string text = "Ocean";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999992)
+                        {
+                            string text = "Night";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999993)
+                        {
+                            string text = "Dawn";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999994)
+                        {
+                            string text = "Candy";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999995)
+                        {
+                            string text = "Galaxy";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999996)
+                        {
+                            string text = "Snow";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999997)
+                        {
+                            string text = "Cender";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999998)
+                        {
+                            string text = "Dark";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                        if ((int)name == 999999)
+                        {
+                            string text = "Rainbow";
+                            if (text != null)
+                            {
+                                __result = text;
+                                return false;
+                            }
+                        }
+                    }
+                }
 
-                999982 => C999982,
-                999983 => C999983,
-                999984 => C999984,
-                999985 => C999985,
-                999986 => C999986,
-                999987 => C999987,
-
-                999988 => C999988,
-                999989 => C999989,
-                999990 => C999990,
-                999991 => C999991,
-                999992 => C999992,
-                999993 => C999993,
-
-                999994 => C999994,
-                999995 => C999995,
-                999996 => C999996,
-                999997 => C999997,
-                999998 => C999998,
-                999999 => C999999,
-
-
-
-                _ => null
-            };
-            if (newResult != null)
-            {
-                __result = newResult;
-                return false;
+                return true;
             }
-
-            return true;
         }
     }
 }
+

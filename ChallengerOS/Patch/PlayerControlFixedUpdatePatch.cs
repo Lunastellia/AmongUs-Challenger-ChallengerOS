@@ -1,20 +1,14 @@
 ﻿using HarmonyLib;
 using Hazel;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static ChallengerMod.Set.Data;
-using static ChallengerMod.Unity;
 using static ChallengerMod.Roles;
 using static ChallengerMod.ColorTable;
 using static ChallengerMod.Challenger;
 using static ChallengerOS.Utils.Option.CustomOptionHolder;
 using ChallengerOS.RPC;
 using ChallengerOS.Objects;
-using static UnityEngine.GraphicsBuffer;
 
 namespace ChallengerMod.Patches
 {
@@ -263,7 +257,7 @@ namespace ChallengerMod.Patches
         }
         static void baitUpdate()
         {
-            if (!Bait.active.Any()) return;
+            if (!Bait.active.Any() || (BaitReport.getSelection() == 0)) return;
 
             // Bait report
             foreach (KeyValuePair<ChallengerOS.Utils.Helpers.DeadPlayer, float> entry in new Dictionary<ChallengerOS.Utils.Helpers.DeadPlayer, float>(Bait.active))
@@ -274,7 +268,6 @@ namespace ChallengerMod.Patches
                     Bait.active.Remove(entry.Key);
                     if (entry.Key.killerIfExisting != null && entry.Key.killerIfExisting.PlayerId == PlayerControl.LocalPlayer.PlayerId)
                     {
-                        //Helpers.handleVampireBiteOnBodyReport();
                         RPCProcedure.uncheckedCmdReportDeadBody(entry.Key.killerIfExisting.PlayerId, entry.Key.player.PlayerId);
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.UncheckedCmdReportDeadBody, Hazel.SendOption.Reliable, -1);
                         writer.Write(entry.Key.killerIfExisting.PlayerId);
@@ -284,6 +277,7 @@ namespace ChallengerMod.Patches
                 }
             }
         }
+        
         static void CursedSetTarget()
         {
             if (Cursed.Role == null || Cursed.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead) return;
@@ -380,6 +374,7 @@ namespace ChallengerMod.Patches
             if (Informant.currentTarget != null)
                 setPlayerOutline(Informant.currentTarget, ChallengerMod.ColorTable.InformantColor);
         }
+
         public static void BuilderSetTarget()
         {
             if (Builder.Role == null || Builder.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead || AbilityDisabled) return;
@@ -427,19 +422,24 @@ namespace ChallengerMod.Patches
         {
             if (Eater.Role == null || Eater.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead) return;
 
-            foreach (Collider2D collider2D in Physics2D.OverlapCircleAll(PlayerControl.LocalPlayer.GetTruePosition(), PlayerControl.LocalPlayer.MaxReportDistance - 2.5f, Constants.PlayersOnlyMask))
+            DeadBody DB = null;
+
+            foreach (Collider2D collider2D in Physics2D.OverlapCircleAll(PlayerControl.LocalPlayer.GetTruePosition(), PlayerControl.LocalPlayer.MaxReportDistance - 2.3f, Constants.PlayersOnlyMask))
             {
                 if (collider2D.tag == "DeadBody")
                 {
-                    DeadBody body = (DeadBody)((Component)collider2D).GetComponent<DeadBody>();
-                    Eater.deadbodyTarget = body;
+                    DB = (DeadBody)((Component)collider2D).GetComponent<DeadBody>();
                 }
-                else { Eater.deadbodyTarget = null; }
-            }
-            
                 
-            
-
+            }
+            Eater.deadbodyTarget = DB;
+        }
+        static void LeaderSetTarget()
+        {
+            if (Leader.Role == null || Leader.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead || AbilityDisabled) return;
+            Leader.currentTarget = setTarget();
+            if (Leader.currentTarget != null)
+                setPlayerOutline(Leader.currentTarget, ChallengerMod.ColorTable.LeaderColor);
         }
         static void DoctorSetTarget()
         {
@@ -447,13 +447,6 @@ namespace ChallengerMod.Patches
             Doctor.currentTarget = setTarget();
             if (Doctor.currentTarget != null)
                 setPlayerOutline(Doctor.currentTarget, ChallengerMod.ColorTable.DoctorColor);
-        }
-        static void CupidSetTarget()
-        {
-            if (Cupid.Role == null || Cupid.Role != PlayerControl.LocalPlayer || Cupid.Role == PlayerControl.LocalPlayer && Cupid.LoveUsed || Cupid.Role == PlayerControl.LocalPlayer && Cupid.Fail || PlayerControl.LocalPlayer.Data.IsDead) return;
-            Cupid.currentTarget = setTarget();
-            if (Cupid.currentTarget != null)
-                setPlayerOutline(Cupid.currentTarget, ChallengerMod.ColorTable.CupidColor);
         }
         static void CultistSetTarget()
         {
@@ -524,6 +517,8 @@ namespace ChallengerMod.Patches
                 setPlayerOutline(CopyCat.currentTarget, ChallengerMod.ColorTable.HunterColor);
             if (CopyCat.currentTarget != null && CopyCat.CopyStart && CopyCat.copyRole == 12)
                 setPlayerOutline(CopyCat.currentTarget, ChallengerMod.ColorTable.InformantColor);
+            if (CopyCat.currentTarget != null && CopyCat.CopyStart && CopyCat.copyRole == 21)
+                setPlayerOutline(CopyCat.currentTarget, ChallengerMod.ColorTable.LeaderColor);
             bool targetBaitArea = false;
             if (CopyCat.currentTarget != null && CopyCat.Role != null || CopyCat.Role == PlayerControl.LocalPlayer)
             {
@@ -871,8 +866,8 @@ namespace ChallengerMod.Patches
                 InformantSetTarget();
                 BuilderSetTarget();
                 CopyBuilderSetTarget();
+                LeaderSetTarget();
                 DoctorSetTarget();
-                CupidSetTarget();
                 CultistSetTarget();
                 OutlawSetTarget();
                 EaterSetTarget();

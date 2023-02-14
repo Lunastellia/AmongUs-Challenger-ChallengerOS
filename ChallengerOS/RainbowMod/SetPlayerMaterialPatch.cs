@@ -15,7 +15,7 @@ namespace ChallengerOS.RainbowPlugin
             }
 
             r.AddRend(rend, colorId);
-            return !RainbowUtils.IsRainbow(colorId);
+            return !RainbowUtils.IsRainbow(colorId) || !RainbowUtils.IsRed(colorId);
         }
     }
 
@@ -29,6 +29,8 @@ namespace ChallengerOS.RainbowPlugin
             {
                 r = rend.gameObject.AddComponent<RainbowBehaviour>();
             }
+
+
 
             r.AddRend(rend, 0);
             return true;
