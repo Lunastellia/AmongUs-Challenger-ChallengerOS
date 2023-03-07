@@ -232,6 +232,20 @@ namespace ChallengerOS.GuessData
             }
             else { }
         }
+        static void SetVotedOnClick(int buttonTarget, MeetingHud __instance)
+        {
+            PlayerControl target = Helpers.playerById((byte)__instance.playerStates[buttonTarget].TargetPlayerId);
+            
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetAllVoteTarget, Hazel.SendOption.Reliable, -1);
+                writer.Write(target.PlayerId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.setAllVoteTarget(target.PlayerId);
+                Dictator.SuperVote = true;
+                SoundManager.Instance.PlaySound(Used, false, 100f);
+                __instance.playerStates.ToList().ForEach(x => { if (x.transform.FindChild("VotedButton") != null) UnityEngine.Object.Destroy(x.transform.FindChild("VotedButton").gameObject); });
+            
+        }
+
 
         [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.Select))]
         class PlayerVoteAreaSelectPatch
@@ -267,6 +281,7 @@ namespace ChallengerOS.GuessData
                     button.OnClick.AddListener((System.Action)(() => guesserOnClick(copiedIndex, __instance)));
                 }
             }
+            // Add Cupid Buttons
             if (Roles.Cupid.Role != null && PlayerControl.LocalPlayer == Roles.Cupid.Role && !Roles.Cupid.Role.Data.IsDead && (Roles.Cupid.Lover2 == null))
                 
             {
@@ -288,6 +303,32 @@ namespace ChallengerOS.GuessData
                     button.OnClick.RemoveAllListeners();
                     int copiedIndex = i;
                     button.OnClick.AddListener((System.Action)(() => SetLoverOnClick(copiedIndex, __instance)));
+                }
+            }
+            // Add Dictator Buttons
+            if ((Roles.Dictator.Role != null && PlayerControl.LocalPlayer == Roles.Dictator.Role && !Roles.Dictator.Role.Data.IsDead && (!Dictator.SuperVote))
+                || (Roles.CopyCat.Role != null && PlayerControl.LocalPlayer == Roles.CopyCat.Role && !Roles.CopyCat.Role.Data.IsDead && CopyCat.CopyStart == true && CopyCat.copyRole == 16 && (!CopyCat.SuperVote))
+                )
+
+            {
+                for (int i = 0; i < __instance.playerStates.Length; i++)
+                {
+                    PlayerVoteArea playerVoteArea = __instance.playerStates[i];
+                    if (playerVoteArea.AmDead || playerVoteArea.TargetPlayerId == Roles.Dictator.Role.PlayerId
+                        || (Roles.CopyCat.Role != null && Dictator.Role.Data.IsDead && CopyCat.copyRole == 16 && CopyCat.CopyStart == true 
+                        && playerVoteArea.TargetPlayerId == Roles.CopyCat.Role.PlayerId)
+                        ) continue;
+
+                    GameObject template = playerVoteArea.Buttons.transform.Find("CancelButton").gameObject;
+                    GameObject targetBox = UnityEngine.Object.Instantiate(template, playerVoteArea.transform);
+                    targetBox.name = "VotedButton";
+                    targetBox.transform.localPosition = new Vector3(-0.35f, 0f, -1f);
+                    SpriteRenderer renderer = targetBox.GetComponent<SpriteRenderer>();
+                    renderer.sprite = MakeVoterIco;
+                    PassiveButton button = targetBox.GetComponent<PassiveButton>();
+                    button.OnClick.RemoveAllListeners();
+                    int copiedIndex = i;
+                    button.OnClick.AddListener((System.Action)(() => SetVotedOnClick(copiedIndex, __instance)));
                 }
             }
         }
