@@ -9,6 +9,7 @@ using static ChallengerMod.Challenger;
 using static ChallengerOS.Utils.Option.CustomOptionHolder;
 using ChallengerOS.RPC;
 using ChallengerOS.Objects;
+using ChallengerOS;
 
 namespace ChallengerMod.Patches
 {

@@ -31,6 +31,7 @@ namespace ChallengerOS.RPC
         UncheckedCmdReportDeadBody,
         SetLover1,
         SetLover2,
+        SetAllVoteTarget,
 
 
     }
@@ -246,6 +247,85 @@ namespace ChallengerOS.RPC
             Cupid.Love2Used = true;
             Cupid.Love1Used = true;
         }
+        public static void setAllVoteTarget(byte votedId)
+        {
+
+            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            {
+                if (Dictator.Role != null && !Dictator.Role.Data.IsDead)
+                {
+                    if (player.PlayerId == votedId)
+                    {
+                        if (DictatorForcedVote.getBool() == true && (CultePlayers.Count() <= 0 || CultePlayers.Count() > 0 && !CultePlayers.Contains(Dictator.Role)))
+                        {
+                            if ((player.Data.Role.IsImpostor)
+                                || (Jester.Role != null && player == Jester.Role)
+                                || (Eater.Role != null && player == Eater.Role)
+                                || (Arsonist.Role != null && player == Arsonist.Role)
+                                || (Outlaw.Role != null && player == Outlaw.Role)
+                                || (Cursed.Role != null && player == Cursed.Role)
+                                || (Cultist.Role != null && player == Cultist.Role)
+                                || (Cultist.Culte1 != null && player == Cultist.Culte1)
+                                || (Cultist.Culte2 != null && player == Cultist.Culte2)
+                                || (Cultist.Culte3 != null && player == Cultist.Culte3))
+                            {
+                                Dictator.VotedFor = player;
+                                GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
+                                Dictator.SuperVote = true;
+                            }
+                            else
+                            {
+                                Dictator.VotedFor = Dictator.Role;
+                                GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvoteforFail");
+                                Dictator.SuperVote = true;
+                            }
+                        }
+                        else
+                        {
+                            Dictator.VotedFor = player;
+                            GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
+                            Dictator.SuperVote = true;
+                        }
+                    }
+                }
+                if (Dictator.Role != null && CopyCat.Role != null && Dictator.Role.Data.IsDead)
+                {
+                    if (player.PlayerId == votedId)
+                    {
+                        if (DictatorForcedVote.getBool() == true && (CultePlayers.Count() <= 0 || CultePlayers.Count() > 0 && !CultePlayers.Contains(CopyCat.Role)))
+                        {
+                            if ((player.Data.Role.IsImpostor)
+                                || (Jester.Role != null && player == Jester.Role)
+                                || (Eater.Role != null && player == Eater.Role)
+                                || (Arsonist.Role != null && player == Arsonist.Role)
+                                || (Outlaw.Role != null && player == Outlaw.Role)
+                                || (Cursed.Role != null && player == Cursed.Role)
+                                || (Cultist.Role != null && player == Cultist.Role)
+                                || (Cultist.Culte1 != null && player == Cultist.Culte1)
+                                || (Cultist.Culte2 != null && player == Cultist.Culte2)
+                                || (Cultist.Culte3 != null && player == Cultist.Culte3))
+                            {
+                                Dictator.VotedFor = player;
+                                GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
+                                CopyCat.SuperVote = true;
+                            }
+                            else
+                            {
+                                Dictator.VotedFor = CopyCat.Role;
+                                GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvoteforFail");
+                                CopyCat.SuperVote = true;
+                            }
+                        }
+                        else
+                        {
+                            Dictator.VotedFor = player;
+                            GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
+                            CopyCat.SuperVote = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
@@ -326,6 +406,11 @@ namespace ChallengerOS.RPC
                 case (byte)CustomRPC.SetLover2:
                     {
                         RPCProcedure.setLover2(reader.ReadByte());
+                        break;
+                    }
+                case (byte)CustomRPC.SetAllVoteTarget:
+                    {
+                        RPCProcedure.setAllVoteTarget(reader.ReadByte());
                         break;
                     }
             }

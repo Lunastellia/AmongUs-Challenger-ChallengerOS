@@ -228,8 +228,10 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption DictatorSpawnChance;
         public static CustomOption DictatorMeeting;
         public static CustomOption DictatorFirstTurn;
+        public static CustomOption DictatorAbility;
+        public static CustomOption DictatorForcedVote;
 
-        public static CustomOption SentinelSpawnChance;
+                public static CustomOption SentinelSpawnChance;
         public static CustomOption ScanCooldown;
         public static CustomOption ScanDuration;
         public static CustomOption ScanAbility;
@@ -682,8 +684,10 @@ namespace ChallengerOS.Utils.Option
             BuildCooldown = CustomOption.Create(343, Types.P3, "> Block Vent Ability Cooldown", 30f, 10f, 60f, 2.5f, BuilderAdd);
 
             DictatorSpawnChance = CustomOption.Create(350, Types.P3, cs(ChallengerMod.ColorTable.DictatorColor, "Dictator Spawn Chance"), 100f, 0f, 100f, 5f, DictatorAdd, true);
+            DictatorAbility = CustomOption.Create(353, Types.P3, "> Dictator Ability", new string[] { "NoSkipVote \nOnly", "ForcedVote \nOnly", "NoSkipVote \nAnd ForcedVote" }, DictatorAdd);
             DictatorMeeting = CustomOption.Create(351, Types.P3, "> NoSkipVote Ability Setting", new string[] { "Passif", "Can be used\nonce per turn", "Single Use" }, DictatorAdd);
-            DictatorFirstTurn = CustomOption.Create(352, Types.P3, "> Disable Ability at first round", true, DictatorAdd);
+            DictatorFirstTurn = CustomOption.Create(352, Types.P3, "> Disable NoSkipVote at first round", true, DictatorAdd);
+            DictatorForcedVote = CustomOption.Create(354, Types.P3, "> ForcedVote Targets himself if an innocent is selected", true, DictatorAdd);
 
             SentinelSpawnChance = CustomOption.Create(360, Types.P3, cs(ChallengerMod.ColorTable.SentinelColor, "Sentinel Spawn Chance"), 100f, 0f, 100f, 5f, SentinelAdd, true);
             ScanCooldown = CustomOption.Create(361, Types.P3, "> Scan Ability Cooldown", 30f, 10f, 60f, 2.5f, SentinelAdd);
@@ -808,7 +812,7 @@ namespace ChallengerOS.Utils.Option
 
             CamoSpawnChance = CustomOption.Create(730, Types.P5, cs(ChallengerMod.ColorTable.ScramblerColor, "Scrambler Spawn Chance"), 100f, 0f, 100f, 5f, CamoAdd, true);
             CamoSetCooldown = CustomOption.Create(731, Types.P5, "> Camo Ability Cooldown", 35f, 10f, 60f, 2.5f, CamoAdd);
-            CamoSetDuration = CustomOption.Create(732, Types.P5, "> Camo Ability Duratuion", 8f, 1f, 30f, 1f, CamoAdd);
+            CamoSetDuration = CustomOption.Create(732, Types.P5, "> Camo Ability Duration", 8f, 1f, 30f, 1f, CamoAdd);
             CamoCanVent = CustomOption.Create(733, Types.P5, "> Can Use vent", true, CamoAdd);
 
             BarghestSpawnChance = CustomOption.Create(740, Types.P5, cs(ChallengerMod.ColorTable.BarghestColor, "Barghest Spawn Chance"), 100f, 0f, 100f, 5f, BarghestAdd, true);

@@ -74,42 +74,48 @@ namespace ChallengerOS
                         }
                     }
 
-                    if ((Dictator.Role != null) || (CopyCat.Role != null && CopyCat.copyRole == 16 && CopyCat.CopyStart == true))
+                    if ((Dictator.Role != null && !Dictator.Role.Data.IsDead) || (CopyCat.Role != null && CopyCat.copyRole == 16 && CopyCat.CopyStart == true && !CopyCat.Role.Data.IsDead))
                     {
-                        if (((!Dictator.Role.Data.IsDead) && Dictator.HMActive == true) || ((CopyCat.copyRole == 16 && CopyCat.CopyStart == true && !CopyCat.Role.Data.IsDead) && CopyCat.HMActive == true))
-
-
+                        if (target == null)
                         {
-                            if (target == null)
+                            foreach (PlayerVoteArea playerVoteArea in MeetingHud.Instance.playerStates)
                             {
-                                foreach (PlayerVoteArea playerVoteArea in MeetingHud.Instance.playerStates)
+                                if (Dictator.HMActive || CopyCat.HMActive)
                                 {
-
-                                    
-
-                                    if (playerVoteArea.VotedFor == 253)
+                                    if (playerVoteArea.VotedFor == 253 || playerVoteArea.VotedFor == 254)
                                     {
-                                        playerVoteArea.VotedFor = playerVoteArea.TargetPlayerId;
+                                        if (Dictator.VotedFor != null && !Dictator.VotedFor.Data.IsDead)
+                                        {
+                                            playerVoteArea.VotedFor = Dictator.VotedFor.PlayerId;
+                                        }
+                                        else
+                                        {
+                                            playerVoteArea.VotedFor = playerVoteArea.TargetPlayerId;
+                                        }
                                     }
-                                    if (playerVoteArea.VotedFor == 254)
+                                    else
                                     {
-                                        playerVoteArea.VotedFor = playerVoteArea.TargetPlayerId;
+                                        if (Dictator.VotedFor != null && !Dictator.VotedFor.Data.IsDead)
+                                        {
+                                            playerVoteArea.VotedFor = Dictator.VotedFor.PlayerId;
+                                        }
                                     }
-                            
+                                }
+                                else
+                                {
+                                    if (playerVoteArea.VotedFor == 253 || playerVoteArea.VotedFor == 254) { }
+                                    else
+                                    {
+                                        if (Dictator.VotedFor != null && !Dictator.VotedFor.Data.IsDead)
+                                        {
+                                            playerVoteArea.VotedFor = Dictator.VotedFor.PlayerId;
+                                        }
+                                    }
                                 }
                             }
-                            else
-                            { }
-                        
-                    
-                
-                        
-                        
-
                         }
                     }
-                    
-                    
+
                     Dictionary<byte, int> self = CalculateVotes(__instance);
                     bool tie;
                     
