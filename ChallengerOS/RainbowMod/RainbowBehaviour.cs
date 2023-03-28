@@ -20,11 +20,35 @@ namespace ChallengerOS.RainbowPlugin
 
             if (RainbowUtils.IsRainbow(Id))
             {
-                RainbowUtils.SetRainbow(Renderer);
+                RainbowUtils.SetRainbowVisor(Renderer);
             }
-            if (RainbowUtils.IsRed(Id))
+            if (RainbowUtils.IsRuby(Id))
             {
-                RainbowUtils.SetColorRed(Renderer);
+                RainbowUtils.SetRubyVisor(Renderer);
+            }
+            if (RainbowUtils.IsAmber(Id))
+            {
+                RainbowUtils.SetAmberVisor(Renderer);
+            }
+            if (RainbowUtils.IsEmerald(Id))
+            {
+                RainbowUtils.SetEmeraldVisor(Renderer);
+            }
+            if (RainbowUtils.IsLarimar(Id))
+            {
+                RainbowUtils.SetLarimarVisor(Renderer);
+            }
+            if (RainbowUtils.IsSapphir(Id))
+            {
+                RainbowUtils.SetSapphirVisor(Renderer);
+            }
+            if (RainbowUtils.IsQuartz(Id))
+            {
+                RainbowUtils.SetQuartzVisor(Renderer);
+            }
+            if (RainbowUtils.IsNormalColor(Id))
+            {
+                RainbowUtils.SetNormalColorVisor(Renderer);
             }
         }
 

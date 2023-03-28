@@ -28,21 +28,27 @@ namespace ChallengerOS.RainbowPlugin
                 StringNames.ColorCoral,
                
                 // New colours
-                
+                (StringNames)999976,
+                (StringNames)999977,
+                (StringNames)999978,
+                (StringNames)999979,
+                (StringNames)999980,
+                (StringNames)999981,
+
                 (StringNames)999982,
                 (StringNames)999983,
                 (StringNames)999984,
                 (StringNames)999985,
                 (StringNames)999986,
                 (StringNames)999987,
-                
+
                 (StringNames)999988,
                 (StringNames)999989,
                 (StringNames)999990,
                 (StringNames)999991,
                 (StringNames)999992,
                 (StringNames)999993,
-               
+
                 (StringNames)999994,
                 (StringNames)999995,
                 (StringNames)999996,
@@ -51,7 +57,7 @@ namespace ChallengerOS.RainbowPlugin
                 (StringNames)999999,
 
             };
-            
+
             Palette.PlayerColors = new[]
             {
                 new Color32(198, 17, 17, byte.MaxValue),
@@ -95,6 +101,13 @@ namespace ChallengerOS.RainbowPlugin
                 new Color32(125, 125, 125, byte.MaxValue),//TrueGrey
                 new Color32(15, 15, 15, byte.MaxValue), //TrueBlack
                 new Color32(0, 0, 0, byte.MaxValue), //Rainbow
+
+                new Color32(1, 0, 0, byte.MaxValue), //Ruby
+                new Color32(1, 1, 0, byte.MaxValue), //Amber
+                new Color32(0, 1, 0, byte.MaxValue), //Emerald
+                new Color32(0, 1, 1, byte.MaxValue), //Larimar
+                new Color32(0, 0, 1, byte.MaxValue), //Sapphir
+                new Color32(1, 0, 1, byte.MaxValue), //Quartz
 
 
             };
@@ -141,6 +154,13 @@ namespace ChallengerOS.RainbowPlugin
                 new Color32(125, 125, 125, byte.MaxValue),//TrueGrey
                 new Color32(15, 15, 15, byte.MaxValue), //TrueBlack
                 new Color32(0, 0, 0, byte.MaxValue), //Rainbow
+
+                new Color32(1, 0, 0, byte.MaxValue), //Ruby
+                new Color32(1, 1, 0, byte.MaxValue), //Amber
+                new Color32(0, 1, 0, byte.MaxValue), //Emerald
+                new Color32(0, 1, 1, byte.MaxValue), //Larimar
+                new Color32(0, 0, 1, byte.MaxValue), //Sapphir
+                new Color32(1, 0, 1, byte.MaxValue), //Quartz
                 
             };
         }

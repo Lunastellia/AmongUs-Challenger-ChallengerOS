@@ -15,7 +15,14 @@ namespace ChallengerOS.RainbowPlugin
             }
 
             r.AddRend(rend, colorId);
-            return !RainbowUtils.IsRainbow(colorId) || !RainbowUtils.IsRed(colorId);
+            return !RainbowUtils.IsRainbow(colorId) 
+                || !RainbowUtils.IsRuby(colorId)
+                || !RainbowUtils.IsAmber(colorId)
+                || !RainbowUtils.IsEmerald(colorId)
+                || !RainbowUtils.IsLarimar(colorId)
+                || !RainbowUtils.IsSapphir(colorId)
+                || !RainbowUtils.IsQuartz(colorId)
+                || !RainbowUtils.IsNormalColor(colorId);
         }
     }
 

@@ -346,14 +346,116 @@ namespace ChallengerOS.RainbowPlugin
                             UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
                             X.size = new Vector2(0f, 0f);
                             UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
-                            Z.sprite = ChallengerMod.Unity.ColorLock;
+                            Z.sprite = ChallengerMod.Unity.SColorLock;
                         }
                         else
                         {
                             UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
                             X.size = new Vector2(0.65f, 0.65f);
                             UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
-                            Z.sprite = ChallengerMod.Unity.ColorUnlock;
+                            Z.sprite = ChallengerMod.Unity.SColorUnlock;
+                        }
+                    }
+                    if (i == 36)
+                    {
+                        if (!ChallengerMod.Cosmetiques.Cosmetics_Achievement.Color_Ruby)
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0f, 0f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorLock;
+                        }
+                        else
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0.65f, 0.65f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorUnlock;
+                        }
+                    }
+                    if (i == 37)
+                    {
+                        if (!ChallengerMod.Cosmetiques.Cosmetics_Achievement.Color_Amber)
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0f, 0f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorLock;
+                        }
+                        else
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0.65f, 0.65f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorUnlock;
+                        }
+                    }
+                    if (i == 38)
+                    {
+                        if (!ChallengerMod.Cosmetiques.Cosmetics_Achievement.Color_Emerald)
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0f, 0f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorLock;
+                        }
+                        else
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0.65f, 0.65f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorUnlock;
+                        }
+                    }
+                    if (i == 39)
+                    {
+                        if (!ChallengerMod.Cosmetiques.Cosmetics_Achievement.Color_Larimar)
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0f, 0f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorLock;
+                        }
+                        else
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0.65f, 0.65f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorUnlock;
+                        }
+                    }
+                    if (i == 40)
+                    {
+                        if (!ChallengerMod.Cosmetiques.Cosmetics_Achievement.Color_Sapphir)
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0f, 0f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorLock;
+                        }
+                        else
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0.65f, 0.65f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorUnlock;
+                        }
+                    }
+                    if (i == 41)
+                    {
+                        if (!ChallengerMod.Cosmetiques.Cosmetics_Achievement.Color_Quartz)
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0f, 0f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorLock;
+                        }
+                        else
+                        {
+                            UnityEngine.BoxCollider2D X = colorChip.GetComponent<UnityEngine.BoxCollider2D>();
+                            X.size = new Vector2(0.65f, 0.65f);
+                            UnityEngine.SpriteRenderer Z = X.GetComponentInParent<SpriteRenderer>();
+                            Z.sprite = ChallengerMod.Unity.SColorUnlock;
                         }
                     }
                 }
@@ -375,9 +477,32 @@ namespace ChallengerOS.RainbowPlugin
                 if (RainbowUtils.IsRainbow(i))
                 {
                     __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Rainbow;
-                    break;
                 }
-                
+                if (RainbowUtils.IsRuby(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Ruby;
+                }
+                if (RainbowUtils.IsAmber(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Amber;
+                }
+                if (RainbowUtils.IsEmerald(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Emerald;
+                }
+                if (RainbowUtils.IsLarimar(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Larimar;
+                }
+                if (RainbowUtils.IsSapphir(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Sapphir;
+                }
+                if (RainbowUtils.IsQuartz(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Quartz;
+                }
+
             }
 
         }

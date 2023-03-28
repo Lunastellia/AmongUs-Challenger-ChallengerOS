@@ -38,7 +38,9 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption NuclearTimerMod;
         public static CustomOption NuclearTimeRND;
         public static CustomOption NuclearHide;
-        
+
+        public static CustomOption DroneSpeed;
+
 
         public static CustomOption BetterTaskWeapon;
         public static CustomOption BetterTaskWire;
@@ -269,11 +271,16 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption JesterSpawnChance;
         public static CustomOption JesterCooldown;
         public static CustomOption JesterSingle;
+        public static CustomOption JesterIMPV;
+        public static CustomOption JesterIMPVS;
+        public static CustomOption JesterCanVent;
 
         public static CustomOption EaterSpawnChance;
         public static CustomOption EaterCooldown;
         public static CustomOption Eaterduration;
         public static CustomOption Eatvalueforwin;
+        public static CustomOption EaterIMPV;
+        public static CustomOption EaterIMPVS;
         public static CustomOption EaterCanVent;
         public static CustomOption EaterCanDrag;
         public static CustomOption BodyRemove;
@@ -281,6 +288,9 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption OutlawSpawnChance;
         public static CustomOption OutlawKillCooldown;
         public static CustomOption OutlawKillRange;
+        public static CustomOption OutlawIMPV;
+        public static CustomOption OutlawIMPVS;
+        public static CustomOption OutlawCanVent;
 
         public static CustomOption ArsonistSpawnChance;
         public static CustomOption ArsonistFuelQT;
@@ -345,6 +355,7 @@ namespace ChallengerOS.Utils.Option
         public static CustomOption BSentinel;
         public static CustomOption BLawkeeper;
         public static CustomOption BImpo;
+        public static CustomOption BFake;
 
         public static CustomOption VectorSpawnChance;
         public static CustomOption VectorBuffCooldown;
@@ -494,9 +505,6 @@ namespace ChallengerOS.Utils.Option
             ImpostorsKnowEachother = CustomOption.Create(1, Types.P1, cs(ChallengerMod.ColorTable.MercenaryColor, "(GameMod) ") + "Unknown Impostors", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") }, null);
 
             BetterMapPL = CustomOption.Create(3, Types.P1, cs(ChallengerMod.ColorTable.GuardianColor, "(Map) ") + "Polus Version    ", new string[] { "Normal", cs(ChallengerMod.ColorTable.MentalistColor, "Better Polus") + cs(ChallengerMod.ColorTable.NightwatchColor, "\nBy Brybry"), cs(ChallengerMod.ColorTable.EaterColor, "Challenger Polus") + cs(ChallengerMod.ColorTable.StelliaColor, "\nBy Lunastellia") }, null, true);
-            BetterMapSK = CustomOption.Create(4, Types.P1, cs(ChallengerMod.ColorTable.GuardianColor, "(Map) ") + "The Skeld Version", new string[] { "Normal", cs(ChallengerMod.ColorTable.EaterColor, "Challenger Skeld") + cs(ChallengerMod.ColorTable.StelliaColor, "\nBy Lunastellia") }, null);
-            BetterMapHQ = CustomOption.Create(5, Types.P1, cs(ChallengerMod.ColorTable.GuardianColor, "(Map) ") + "Mira HQ Version", new string[] { "Normal", cs(ChallengerMod.ColorTable.EaterColor, "Challenger Mira") + cs(ChallengerMod.ColorTable.StelliaColor, "\nBy Lunastellia") }, null);
-
             NuclearTimerMod = CustomOption.Create(7, Types.P1, "> Nuclear Polus Mod", true, HIDE_Map);
             NuclearRND = CustomOption.Create(910, Types.P1, "> Nuclear Spawn Chance", 100f, 0f, 100f, 5f, NuclearTimerMod);
             NuclearHide = CustomOption.Create(913, Types.P1, "> Show Nuclear timer", new string[] { "Nobody", "Everyone", "Only Impostor" }, NuclearTimerMod);
@@ -504,6 +512,12 @@ namespace ChallengerOS.Utils.Option
             NuclearTimeRND = CustomOption.Create(912, Types.P1, "> Additional Random Time", 90f, 0f, 180f, 5f, NuclearTimerMod);
             NuclearTime2 = CustomOption.Create(9, Types.P1, "> Emergency Timer", 10f, 10f, 30f, 1f, NuclearTimerMod);
 
+            BetterMapSK = CustomOption.Create(4, Types.P1, cs(ChallengerMod.ColorTable.GuardianColor, "(Map) ") + "The Skeld Version", new string[] { "Normal", cs(ChallengerMod.ColorTable.EaterColor, "Challenger Skeld") + cs(ChallengerMod.ColorTable.StelliaColor, "\nBy Lunastellia") }, null, true);
+                       
+            BetterMapHQ = CustomOption.Create(5, Types.P1, cs(ChallengerMod.ColorTable.GuardianColor, "(Map) ") + "Mira HQ Version", new string[] { "Normal", cs(ChallengerMod.ColorTable.EaterColor, "Challenger Mira") + cs(ChallengerMod.ColorTable.StelliaColor, "\nBy Lunastellia") }, null, true);
+            DroneSpeed = CustomOption.Create(930, Types.P1, "> Drone Speed", 3f, 1f, 5f, 1f, BetterMapHQ);
+
+            
             BetterTaskWeapon = CustomOption.Create(10, Types.P1, cs(ChallengerMod.ColorTable.SheriffColor, "(Task) ") + "Weapon smaller asteroid", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") }, null, true);
             BetterTaskWire = CustomOption.Create(11, Types.P6, cs(ChallengerMod.ColorTable.SheriffColor, "(Task) ") + "More Eletric Wires (x8)", new string[] { cs(ChallengerMod.ColorTable.BuffedColor, "Disables"), cs(ChallengerMod.ColorTable.TrackedColor, "Enabled") }, null);
 
@@ -727,11 +741,18 @@ namespace ChallengerOS.Utils.Option
             JesterSpawnChance = CustomOption.Create(520, Types.P4, cs(ChallengerMod.ColorTable.JesterColor, "Jester Spawn Chance"), 100f, 0f, 100f, 5f, JesterAdd, true);
             JesterCooldown = CustomOption.Create(521, Types.P4, "> Fake-Kill Ability Cooldown", 30f, 10f, 60f, 2.5f, JesterAdd);
             JesterSingle = CustomOption.Create(522, Types.P4, "> Fake Kill Ability Available", new string[] { "Single Use", "Enable", "Disabled" }, JesterAdd);
+            JesterIMPV = CustomOption.Create(523, Types.P4, "> Impostor Vision", true, JesterAdd);
+            JesterIMPVS = CustomOption.Create(524, Types.P4, "> Light affect Vision", true, JesterIMPV);
+            JesterCanVent = CustomOption.Create(525, Types.P4, "> Can Use Vent", true, JesterAdd);
+
+
 
             EaterSpawnChance = CustomOption.Create(530, Types.P4, cs(ChallengerMod.ColorTable.EaterColor, "Eater Spawn Chance"), 100f, 0f, 100f, 5f, EaterAdd, true);
             EaterCooldown = CustomOption.Create(531, Types.P4, "> Eat Deadbody Ability Cooldown", 30f, 10f, 60f, 2.5f, EaterAdd);
             Eaterduration = CustomOption.Create(532, Types.P4, "> Delay for Eat deadbody", 5f, 1f, 20f, 1f, EaterAdd);
             Eatvalueforwin = CustomOption.Create(533, Types.P4, "> amount of corpse eat to win", new string[] { "x1", "x2", "x3", "x4", "x5" }, EaterAdd);
+            EaterIMPV = CustomOption.Create(537, Types.P4, "> Impostor Vision", true, EaterAdd);
+            EaterIMPVS = CustomOption.Create(538, Types.P4, "> Light affect Vision", true, EaterIMPV);
             EaterCanVent = CustomOption.Create(534, Types.P4, "> Can Use Vent", true, EaterAdd);
             EaterCanDrag = CustomOption.Create(535, Types.P4, "> Can Drag body", true, EaterAdd);
             BodyRemove = CustomOption.Create(536, Types.P4, "> Blood Remove after Meeting", false, EaterAdd);
@@ -739,6 +760,10 @@ namespace ChallengerOS.Utils.Option
             OutlawSpawnChance = CustomOption.Create(540, Types.P4, cs(ChallengerMod.ColorTable.OutlawColor, "Outlaw Spawn Chance"), 100f, 0f, 100f, 5f, OutlawAdd, true);
             OutlawKillCooldown = CustomOption.Create(541, Types.P4, "> Kill Cooldown", 30f, 10f, 60f, 2.5f, OutlawAdd);
             OutlawKillRange = CustomOption.Create(542, Types.P4, "> Kill Range", new string[] { "100%", "120%" }, OutlawAdd);
+            OutlawIMPV = CustomOption.Create(543, Types.P4, "> Impostor Vision", true, OutlawAdd);
+            OutlawIMPVS = CustomOption.Create(544, Types.P4, "> Light affect Vision", true, OutlawIMPV);
+            OutlawCanVent = CustomOption.Create(545, Types.P4, "> Can Use Vent", true, OutlawAdd);
+
 
             ArsonistSpawnChance = CustomOption.Create(550, Types.P4, cs(ChallengerMod.ColorTable.ArsonistColor, "Arsonist Spawn Chance"), 100f, 0f, 100f, 5f, ArsonistAdd, true);
             ArsonistFuelQT = CustomOption.Create(551, Types.P4, "> Quantity of Fuel need for oil", 50f, 0f, 100f, 10f, ArsonistAdd);
@@ -797,7 +822,9 @@ namespace ChallengerOS.Utils.Option
             BDictator = CustomOption.Create(685, Types.P5, "> Bonus for kill the Dictator", true, AssassinAdd);
             BSentinel = CustomOption.Create(686, Types.P5, "> Bonus for kill the Sentinel", true, AssassinAdd);
             BLawkeeper = CustomOption.Create(687, Types.P5, "> Bonus for kill the Lawkeeper", true, AssassinAdd);
-            BImpo = CustomOption.Create(688, Types.P5, "> Bonus for kill the Impostors", true, AssassinAdd);
+            BFake = CustomOption.Create(689, Types.P5, "> Bonus for kill the Fake", 15f, 0f, 15f, 1f, AssassinAdd);
+            BImpo = CustomOption.Create(690, Types.P5, "> Bonus for kill the Impostors", 7f, 0f, 15f, 1f, AssassinAdd);
+
 
             VectorSpawnChance = CustomOption.Create(700, Types.P5, cs(ChallengerMod.ColorTable.VectorColor, "Vector Spawn Chance"), 100f, 0f, 100f, 5f, VectorAdd, true);
             VectorBuffCooldown = CustomOption.Create(701, Types.P5, "> Cooldown for infect another player", 30f, 10f, 60f, 2.5f, VectorAdd);

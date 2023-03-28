@@ -112,6 +112,8 @@ namespace ChallengerOS.Utils
             else if (Bait.Role != null && Bait.Role == player && Bait.CanVent) { roleCouldUse = true; }
             else if (Fake.Role != null && Fake.Role == player && Fake.CanVent) { roleCouldUse = true; }
             else if (Eater.Role != null && Eater.Role == player && Eater.CanVent) { roleCouldUse = true; }
+            else if (Outlaw.Role != null && Outlaw.Role == player && Outlaw.CanVent) { roleCouldUse = true; }
+            else if (Jester.Role != null && Jester.Role == player && Jester.CanVent) { roleCouldUse = true; }
             else if (Mercenary.Role != null && Mercenary.Role == player && Mercenary.CanVent) { roleCouldUse = true; }
             else if (CopyCat.Role != null && CopyCat.Role == player && CopyCat.CanVent) { roleCouldUse = true; }
             else { roleCouldUse = false; }
@@ -127,6 +129,7 @@ namespace ChallengerOS.Utils
 
             return roleCouldUse;
         }
+       
         public static MurderAttemptResult checkMurderAttempt(PlayerControl killer, PlayerControl target, bool blockRewind = false)
         {
             // Modified vanilla checks
@@ -219,7 +222,11 @@ namespace ChallengerOS.Utils
         //Fake tasks for neutral and rebel team
         public static bool hasFakeTasks(this PlayerControl player)
         {
-            return (player == Jester.Role || player == Eater.Role || player == Cupid.Role || player == Cultist.Role || player == Arsonist.Role || player == Outlaw.Role || player == Survivor.Role || player == Cursed.Role );//|| player == GM.Player
+            return (player == Jester.Role || player == Eater.Role || player == Cupid.Role || player == Cultist.Role || player == Arsonist.Role || player == Outlaw.Role || player == Survivor.Role || player == Cursed.Role);//|| player == GM.Player
+        }
+        public static bool RevengerTask(this PlayerControl player)
+        {
+            return (player == Revenger.Role);
         }
 
         public static void clearAllTasks(this PlayerControl player)
@@ -260,7 +267,7 @@ namespace ChallengerOS.Utils
                     }
                     else
                     {
-                        if (source.Data.Role.IsImpostor && (target.Data.Role.IsImpostor || target == Fake.Role))
+                        if (source.Data.Role.IsImpostor && ImpostorsKnowEachother.getSelection() == 0 && (target.Data.Role.IsImpostor || target == Fake.Role))
                         {
                             return false; // Visible
                         }
@@ -285,9 +292,23 @@ namespace ChallengerOS.Utils
                     }
                     else
                     {
-                        if (source.Data.Role.IsImpostor && (target.Data.Role.IsImpostor || target == Fake.Role))
+                        if (ImpostorsKnowEachother.getSelection() == 0)
                         {
-                            return false; // Visible
+                            if (source.Data.Role.IsImpostor && (target.Data.Role.IsImpostor || target == Fake.Role))
+                            {
+                                return false; // Visible
+                            }
+                            else
+                            {
+                                if (Scrambler.Role != null && Scrambler.Camo)
+                                {
+                                    return true; // Hide
+                                }
+                                else
+                                {
+                                    return false; // Visible
+                                }
+                            }
                         }
                         else
                         {
@@ -313,7 +334,7 @@ namespace ChallengerOS.Utils
         public static void setLook(this PlayerControl target, String playerName, int colorId, string hatId, string visorId, string skinId, string petId)
         {
             target.RawSetColor(colorId);
-            target.RawSetVisor(visorId);
+            target.RawSetVisor(visorId, colorId);
             target.RawSetHat(hatId, colorId);
             target.RawSetName(hidePlayerName(PlayerControl.LocalPlayer, target) ? cs(ChallengerMod.ColorTable.nocolor, "x") : playerName);
 

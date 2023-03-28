@@ -154,11 +154,15 @@ namespace ChallengerOS.VentPatch
         public static void Postfix(ChatBubble __instance, [HarmonyArgument(0)] string playerName)
         {
             PlayerControl player = PlayerControl.AllPlayerControls.ToArray().ToList().FirstOrDefault(x => x.Data != null && x.Data.PlayerName.Equals(playerName));
-            if (PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data.Role.IsImpostor && (Fake.Role != null && player.PlayerId == Fake.Role.PlayerId && __instance != null))
+            if (PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data.Role.IsImpostor && !UnknowImpostors && (Fake.Role != null && player.PlayerId == Fake.Role.PlayerId && __instance != null))
             {
                 __instance.NameText.color = Palette.ImpostorRed;
             }
-           
+            if (PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data.Role.IsImpostor && UnknowImpostors && (player.Data.Role.IsImpostor && __instance != null))
+            {
+                __instance.NameText.color = Palette.CrewmateBlue;
+            }
+
         }
     }
 

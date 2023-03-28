@@ -100,7 +100,7 @@ namespace ChallengerOS
 
 
             // Remove fake tasks when player dies
-            if (target.hasFakeTasks())
+            if (target.hasFakeTasks() || target.RevengerTask())
             {
                 target.clearAllTasks();
             }
@@ -124,11 +124,8 @@ namespace ChallengerOS
                 __instance.clearAllTasks();
         }
     }
-
    
-    
-    
-    
+
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.LocalPlayer.CmdReportDeadBody))]
     class BodyReportPatch

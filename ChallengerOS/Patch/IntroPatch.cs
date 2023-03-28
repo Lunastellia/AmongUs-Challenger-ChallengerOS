@@ -23,6 +23,19 @@ namespace ChallengerOS.Intropatch
                 || PlayerControl.LocalPlayer == Arsonist.Role
                 || PlayerControl.LocalPlayer == Cursed.Role
                 || PlayerControl.LocalPlayer == Survivor.Role
+                || (PlayerControl.LocalPlayer == Impostor1.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Impostor2.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Impostor3.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Assassin.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Vector.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Morphling.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Scrambler.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Barghest.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Ghost.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Guesser.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Sorcerer.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Basilisk.Role && ChallengerMod.Challenger.UnknowImpostors)
+                || (PlayerControl.LocalPlayer == Reaper.Role && ChallengerMod.Challenger.UnknowImpostors)
                 ) 
             {
                 var AloneTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();

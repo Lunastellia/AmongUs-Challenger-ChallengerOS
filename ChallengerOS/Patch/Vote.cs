@@ -339,7 +339,7 @@ namespace ChallengerOS
             }
         }
 
-                [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
+        [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
         class MeetingHudUpdatePatch
         {
 
@@ -347,6 +347,19 @@ namespace ChallengerOS
             {
                 ChallengerMod.Challenger.SafeTimer = 1f;
 
+                if (Cultist.Role != null)
+                {
+                    if (PlayerControl.LocalPlayer == Cultist.Role && Cultist.CulteTargetFail)
+                    {
+                        if (!Cultist.Role.Data.IsDead && Cultist.Die == false)
+                        {
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.CultistDieMeeting, Hazel.SendOption.None, -1);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            RPCProcedure.cultistDieMeeting();
+                            Cultist.Die = true;
+                        }
+                    }
+                }
 
                 if (Cupid.Role != null && Cupid.Lover1 != null && Cupid.Lover2 != null && Cupid.Lover1.PlayerId == Cupid.Lover2.PlayerId)
                 { Cupid.Lover2 = null; }
@@ -380,7 +393,7 @@ namespace ChallengerOS
                     HudManager.Instance.FullScreen.color = new Color(0f, 0f, 0f, 0f);
                 }
 
-
+                if (Cultist.Role != null && Cultist.CulteTargetFail) { Cultist.Role.Data.IsDead = true; }
 
                
                 if (Basilisk.Role != null && Basilisk.Petrified != null && !Basilisk.Petrified.Data.IsDead && !Basilisk.Role.Data.IsDead)
@@ -446,6 +459,20 @@ namespace ChallengerOS
                         }
                     }
                 }
+
+                if (PlayerControl.GameOptions.MapId == 1 && ChallengerOS.Utils.Option.CustomOptionHolder.BetterMapHQ.getSelection() == 1)
+                {
+                    if (GameObject.Find("Drone_SurvCamera")) //Mirah
+                    {
+                        GameObject SrvDrone = GameObject.Find("Drone_SurvCamera");
+                        SpriteRenderer SrvDroneSprite = SrvDrone.GetComponent<SpriteRenderer>();
+                        SrvDroneSprite.sprite = ChallengerMod.Unity.Drone0;
+                        if (ChallengerMod.Challenger.DroneController != null)
+                        { ChallengerMod.Challenger.DroneController = null; }
+                    }
+                }
+
+
             }
         }
     }
