@@ -157,7 +157,12 @@ namespace ChallengerMod.Patches
                                 vent.myRend.material.SetFloat("_Outline", 1f);
                                 vent.myRend.material.SetColor("_OutlineColor", EaterColor);
                             }
-                            
+                            else if (Outlaw.Role != null && Outlaw.Role.inVent)
+                            {
+                                vent.myRend.material.SetFloat("_Outline", 1f);
+                                vent.myRend.material.SetColor("_OutlineColor", OutlawColor);
+                            }
+
                             else if (vent.myRend.material.GetColor("_AddColor") != Color.red)
                             {
                                 vent.myRend.material.SetFloat("_Outline", 0);
@@ -561,7 +566,7 @@ namespace ChallengerMod.Patches
         }
         static void VectorSetTarget()
         {
-            if (Vector.Role == null || Vector.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead) return;
+            if (Vector.Role == null || Vector.Role != PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead || Vector.Infected != null) return;
             Vector.currentTarget = setTarget();
             if (Vector.currentTarget != null)
                 setPlayerOutline(Vector.currentTarget, ChallengerMod.ColorTable.ImpostorColor);

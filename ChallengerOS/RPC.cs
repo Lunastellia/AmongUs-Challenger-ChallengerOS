@@ -10,6 +10,7 @@ using static ChallengerMod.Roles;
 using ChallengerOS.Utils.Option;
 using static ChallengerOS.Utils.Option.CustomOptionHolder;
 using ChallengerOS.Utils;
+using static UnityEngine.GraphicsBuffer;
 
 namespace ChallengerOS.RPC
 {
@@ -31,6 +32,7 @@ namespace ChallengerOS.RPC
         UncheckedCmdReportDeadBody,
         SetLover1,
         SetLover2,
+        CultistDieMeeting,
         SetAllVoteTarget,
 
 
@@ -53,16 +55,25 @@ namespace ChallengerOS.RPC
         }
         public static void shareReady(string PlayerName)
         {
-            if (ChallengerMod.Challenger.ReadyPlayers.Contains(PlayerName))
+            try
             {
+                if (ChallengerMod.Challenger.ReadyPlayers.Contains(PlayerName))
+                {
 
+                }
+                else
+                {
+                    ChallengerMod.Challenger.ReadyPlayers.Add(PlayerName);
+                }
             }
-            else
+            catch (Exception e)
             {
-                ChallengerMod.Challenger.ReadyPlayers.Add(PlayerName);
+                GLMod.GLMod.logError("[RPC] shareReady " + e.Message);
+                return;
             }
+
         }
-       
+
 
         public static void ShareOptions(int numberOfOptions, MessageReader reader)
         {
@@ -76,255 +87,366 @@ namespace ChallengerOS.RPC
                     option.updateSelection((int)selection);
                 }
             }
-            catch (Exception e) { }
+            catch (Exception e) 
+            {
+            }
         }
         public static void uncheckedMurderPlayer(byte sourceId, byte targetId, byte showAnimation)
         {
-            PlayerControl source = Helpers.playerById(sourceId);
-            PlayerControl target = Helpers.playerById(targetId);
-            if (source != null && target != null)
+            try
             {
-                if (showAnimation == 0) KillAnimationCoPerformKillPatch.hideNextAnimation = true;
-                source.MurderPlayer(target);
+                PlayerControl source = Helpers.playerById(sourceId);
+                PlayerControl target = Helpers.playerById(targetId);
+                if (source != null && target != null)
+                {
+                    if (showAnimation == 0) KillAnimationCoPerformKillPatch.hideNextAnimation = true;
+                    source.MurderPlayer(target);
+                }
             }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] uncheckedMurderPlayer " + e.Message);
+                return;
+            }
+
         }
         public static void useUncheckedVent(int ventId, byte playerId, byte isEnter)
         {
-            PlayerControl player = Helpers.playerById(playerId);
-            if (player == null) return;
-            // Fill dummy MessageReader and call MyPhysics.HandleRpc as the corountines cannot be accessed
-            MessageReader reader = new MessageReader();
-            byte[] bytes = BitConverter.GetBytes(ventId);
-            if (!BitConverter.IsLittleEndian)
-                Array.Reverse(bytes);
-            reader.Buffer = bytes;
-            reader.Length = bytes.Length;
+            try
+            {
+                PlayerControl player = Helpers.playerById(playerId);
+                if (player == null) return;
+                // Fill dummy MessageReader and call MyPhysics.HandleRpc as the corountines cannot be accessed
+                MessageReader reader = new MessageReader();
+                byte[] bytes = BitConverter.GetBytes(ventId);
+                if (!BitConverter.IsLittleEndian)
+                    Array.Reverse(bytes);
+                reader.Buffer = bytes;
+                reader.Length = bytes.Length;
 
-            //Hats.startAnimation(ventId);
-            player.MyPhysics.HandleRpc(isEnter != 0 ? (byte)19 : (byte)20, reader);
+                //Hats.startAnimation(ventId);
+                player.MyPhysics.HandleRpc(isEnter != 0 ? (byte)19 : (byte)20, reader);
+
+            }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] useUncheckedVent " + e.Message);
+                return;
+            }
+
         }
         //GUARDIAN
         public static void shieldedMurderAttempt()
         {
-            if (Guardian.Protected != null && Guardian.Protected == PlayerControl.LocalPlayer && GuardianShieldSound.getBool() == true)
+            try
             {
-                SoundManager.Instance.PlaySound(shieldClip, false, 100f);
+                if (Guardian.Protected != null && Guardian.Protected == PlayerControl.LocalPlayer && GuardianShieldSound.getBool() == true)
+                {
+                    SoundManager.Instance.PlaySound(shieldClip, false, 100f);
+                    Guardian.TryKill = true;
+                }
+                else if (Guardian.ProtectedMystic != null && Guardian.ProtectedMystic == PlayerControl.LocalPlayer && GuardianShieldSound.getBool() == true)
+                {
+                    SoundManager.Instance.PlaySound(shieldClip, false, 100f);
+                    Guardian.TryKill = true;
+                }
+                else
+                {
+                    Guardian.TryKill = true;
+                }
+                if (Guardian.Protected != null)
+                {
+                    GLMod.GLMod.currentGame.addAction(Guardian.Protected.Data.PlayerName, "", "kill_resist_by_shield");
+                }
+                if (Guardian.ProtectedMystic != null)
+                {
+                    GLMod.GLMod.currentGame.addAction(Guardian.ProtectedMystic.Data.PlayerName, "", "kill_resist_by_supershield");
+                }
                 Guardian.TryKill = true;
+                return;
             }
-            else if (Guardian.ProtectedMystic != null && Guardian.ProtectedMystic == PlayerControl.LocalPlayer && GuardianShieldSound.getBool() == true)
+            catch (Exception e)
             {
-                SoundManager.Instance.PlaySound(shieldClip, false, 100f);
-                Guardian.TryKill = true;
+                GLMod.GLMod.logError("[RPC] shieldedMurderAttempt " + e.Message);
+                return;
             }
-            else
-            {
-                Guardian.TryKill = true;
-            }
-            if (Guardian.Protected != null)
-            {
-                GLMod.GLMod.currentGame.addAction(Guardian.Protected.Data.PlayerName, "", "kill_resist_by_shield");
-            }
-            if (Guardian.ProtectedMystic != null)
-            {
-                GLMod.GLMod.currentGame.addAction(Guardian.ProtectedMystic.Data.PlayerName, "", "kill_resist_by_supershield");
-            }
-            Guardian.TryKill = true;
-            return;
+
         }
         //GUESSER
 
         public static void guesserShoot(byte playerId)
         {
-            PlayerControl target = Helpers.playerById(playerId);
-            if (target == null)
+            try
             {
+                PlayerControl target = Helpers.playerById(playerId);
+                if (target == null)
+                {
+                    return;
+                }
+                if (target == Guesser.Role)
+                {
+                    GLMod.GLMod.currentGame.addAction(Guesser.Role.Data.PlayerName, "", "guess_suicide");
+                }
+                else
+                {
+                    GLMod.GLMod.currentGame.addAction(Guesser.Role.Data.PlayerName, target.Data.PlayerName, "guess_kill");
+                }
+                target.Exiled();
+                PlayerControl partner = target.getPartner(); // Lover check
+                byte partnerId = partner != null ? partner.PlayerId : playerId;
+                Guesser.remainingShots = Mathf.Max(0, Guesser.remainingShots - 1);
+                //Guesser.remainingShots -= 1;
+                //if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
+                //SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
+                if (MeetingHud.Instance)
+                {
+                    foreach (PlayerVoteArea pva in MeetingHud.Instance.playerStates)
+                    {
+                        if (pva.TargetPlayerId == playerId || pva.TargetPlayerId == partnerId)
+                        {
+                            pva.SetDead(pva.DidReport, true);
+                            pva.Overlay.gameObject.SetActive(true);
+                        }
+                    }
+                    if (AmongUsClient.Instance.AmHost)
+                        MeetingHud.Instance.CheckForEndVoting();
+                }
+                if (HudManager.Instance != null && Guesser.Role != null)
+                    if (PlayerControl.LocalPlayer == target)
+                        HudManager.Instance.KillOverlay.ShowKillAnimation(Guesser.Role.Data, target.Data);
+                    else if (partner != null && PlayerControl.LocalPlayer == partner && Loverdie.getBool() == true)
+                        HudManager.Instance.KillOverlay.ShowKillAnimation(partner.Data, partner.Data);
+                    else
+                        SoundManager.Instance.PlaySound(SoulTake, false, 100f);
+            }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] guesserShoot " + e.Message);
                 return;
             }
-            if (target == Guesser.Role)
-            {
-                GLMod.GLMod.currentGame.addAction(Guesser.Role.Data.PlayerName, "", "guess_suicide");
-            }
-            else
-            {
-                GLMod.GLMod.currentGame.addAction(Guesser.Role.Data.PlayerName, target.Data.PlayerName, "guess_kill");
-            }
-            target.Exiled();
-            PlayerControl partner = target.getPartner(); // Lover check
-            byte partnerId = partner != null ? partner.PlayerId : playerId;
-            Guesser.remainingShots = Mathf.Max(0, Guesser.remainingShots - 1);
-            //Guesser.remainingShots -= 1;
-            //if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
-            //SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
-            if (MeetingHud.Instance)
-            {
-                foreach (PlayerVoteArea pva in MeetingHud.Instance.playerStates)
-                {
-                    if (pva.TargetPlayerId == playerId || pva.TargetPlayerId == partnerId)
-                    {
-                        pva.SetDead(pva.DidReport, true);
-                        pva.Overlay.gameObject.SetActive(true);
-                    }
-                }
-                if (AmongUsClient.Instance.AmHost)
-                    MeetingHud.Instance.CheckForEndVoting();
-            }
-            if (HudManager.Instance != null && Guesser.Role != null)
-                if (PlayerControl.LocalPlayer == target)
-                    HudManager.Instance.KillOverlay.ShowKillAnimation(Guesser.Role.Data, target.Data);
-                else if (partner != null && PlayerControl.LocalPlayer == partner && Loverdie.getBool() == true)
-                    HudManager.Instance.KillOverlay.ShowKillAnimation(partner.Data, partner.Data);
-                else
-                    SoundManager.Instance.PlaySound(SoulTake, false, 100f);
+
         }
 
         public static void guesserFail(byte playerId)
         {
-
-            PlayerControl target = Helpers.playerById(playerId);
-            if (target == null)
+            try
             {
+                PlayerControl target = Helpers.playerById(playerId);
+                if (target == null)
+                {
+                    return;
+                }
+                GLMod.GLMod.currentGame.addAction(Guesser.Role.Data.PlayerName, target.Data.PlayerName, "guess_try");
+                //target.Exiled();
+                PlayerControl partner = target.getPartner(); // Lover check
+                byte partnerId = partner != null ? partner.PlayerId : playerId;
+                Guesser.remainingShots = Mathf.Max(0, Guesser.remainingShots - 1);
+                // ChallengerMod.Set.HudManagerPatch.GuessValue -= 1;
+                //if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
+                //SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
+                if (MeetingHud.Instance)
+                {
+                    foreach (PlayerVoteArea pva in MeetingHud.Instance.playerStates)
+                    {
+                        if (pva.TargetPlayerId == playerId || pva.TargetPlayerId == partnerId)
+                        {
+                            //pva.SetDead(pva.DidReport, true);
+                            //pva.Overlay.gameObject.SetActive(true);
+                        }
+                    }
+                    //if (AmongUsClient.Instance.AmHost)
+                    // MeetingHud.Instance.CheckForEndVoting();
+                }
+                if (HudManager.Instance != null && Guesser.Role != null)
+
+                    SoundManager.Instance.PlaySound(SoulTake, false, 100f);
+                GuesserNotDie = false;
+            }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] guesserFail " + e.Message);
                 return;
             }
-            GLMod.GLMod.currentGame.addAction(Guesser.Role.Data.PlayerName, target.Data.PlayerName, "guess_try");
-            //target.Exiled();
-            PlayerControl partner = target.getPartner(); // Lover check
-            byte partnerId = partner != null ? partner.PlayerId : playerId;
-            Guesser.remainingShots = Mathf.Max(0, Guesser.remainingShots - 1);
-            // ChallengerMod.Set.HudManagerPatch.GuessValue -= 1;
-            //if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
-            //SoundManager.Instance.PlaySound(target.KillSfx, false, 0.8f);
-            if (MeetingHud.Instance)
-            {
-                foreach (PlayerVoteArea pva in MeetingHud.Instance.playerStates)
-                {
-                    if (pva.TargetPlayerId == playerId || pva.TargetPlayerId == partnerId)
-                    {
-                        //pva.SetDead(pva.DidReport, true);
-                        //pva.Overlay.gameObject.SetActive(true);
-                    }
-                }
-                //if (AmongUsClient.Instance.AmHost)
-                // MeetingHud.Instance.CheckForEndVoting();
-            }
-            if (HudManager.Instance != null && Guesser.Role != null)
 
-                SoundManager.Instance.PlaySound(SoulTake, false, 100f);
-            GuesserNotDie = false;
         }
         public static void uncheckedCmdReportDeadBody(byte sourceId, byte targetId)
         {
-            PlayerControl source = Helpers.playerById(sourceId);
-            var t = targetId == Byte.MaxValue ? null : Helpers.playerById(targetId).Data;
-            if (source != null) source.ReportDeadBody(t);
+            try
+            {
+                PlayerControl source = Helpers.playerById(sourceId);
+                var t = targetId == Byte.MaxValue ? null : Helpers.playerById(targetId).Data;
+                if (source != null) source.ReportDeadBody(t);
+            }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] uncheckedCmdReportDeadBody " + e.Message);
+                return;
+            }
+
         }
         public static void setLover1(byte loved1Id)
         {
-            
-            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            try
             {
-                if (player.PlayerId == loved1Id)
+                foreach (PlayerControl player in PlayerControl.AllPlayerControls)
                 {
-                    Cupid.Lover1 = player;
-                    GLMod.GLMod.currentGame.addAction(Cupid.Role.Data.PlayerName, player.Data.PlayerName, "make_love");
+                    if (player.PlayerId == loved1Id)
+                    {
+                        Cupid.Lover1 = player;
+                        GLMod.GLMod.currentGame.addAction(Cupid.Role.Data.PlayerName, player.Data.PlayerName, "make_love");
+                    }
                 }
+
+                Cupid.Love1Used = true;
+            }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] setLover1 " + e.Message);
+                return;
             }
 
-            Cupid.Love1Used = true;
         }
         public static void setLover2(byte loved2Id)
         {
-            
-            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            try
             {
-                if (player.PlayerId == loved2Id)
+                foreach (PlayerControl player in PlayerControl.AllPlayerControls)
                 {
-                    Cupid.Lover2 = player;
-                    GLMod.GLMod.currentGame.addAction(Cupid.Role.Data.PlayerName, player.Data.PlayerName, "make_love");
+                    if (player.PlayerId == loved2Id)
+                    {
+                        Cupid.Lover2 = player;
+                        GLMod.GLMod.currentGame.addAction(Cupid.Role.Data.PlayerName, player.Data.PlayerName, "make_love");
+
+                    }
 
                 }
-
+                Cupid.Love2Used = true;
+                Cupid.Love1Used = true;
             }
-            Cupid.Love2Used = true;
-            Cupid.Love1Used = true;
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] setLover2 " + e.Message);
+                return;
+            }
+
+        }
+        public static void cultistDieMeeting()
+        {
+            try
+            {
+                if (MeetingHud.Instance)
+                {
+                    foreach (PlayerVoteArea pva in MeetingHud.Instance.playerStates)
+                    {
+                        if (pva.TargetPlayerId == Cultist.Role.PlayerId)
+                        {
+                            pva.SetDead(pva.DidReport, true);
+                            pva.Overlay.gameObject.SetActive(true);
+                        }
+                    }
+                    if (AmongUsClient.Instance.AmHost)
+                        MeetingHud.Instance.CheckForEndVoting();
+                    if (PlayerControl.LocalPlayer == Cultist.Role)
+                        HudManager.Instance.KillOverlay.ShowKillAnimation(Cultist.Role.Data, Cultist.Role.Data);
+
+                    Cultist.Role.Data.IsDead = true;
+                    Cultist.Suicide = true;
+                    GLMod.GLMod.currentGame.addAction(Cultist.Role.Data.PlayerName, "", "cultist_die");
+                }
+            }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] cultistDieMeeting " + e.Message);
+                return;
+            }
+
         }
         public static void setAllVoteTarget(byte votedId)
         {
-
-            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            try
             {
-                if (Dictator.Role != null && !Dictator.Role.Data.IsDead)
+                foreach (PlayerControl player in PlayerControl.AllPlayerControls)
                 {
-                    if (player.PlayerId == votedId)
+                    if (Dictator.Role != null && !Dictator.Role.Data.IsDead)
                     {
-                        if (DictatorForcedVote.getBool() == true && (CultePlayers.Count() <= 0 || CultePlayers.Count() > 0 && !CultePlayers.Contains(Dictator.Role)))
+                        if (player.PlayerId == votedId)
                         {
-                            if ((player.Data.Role.IsImpostor)
-                                || (Jester.Role != null && player == Jester.Role)
-                                || (Eater.Role != null && player == Eater.Role)
-                                || (Arsonist.Role != null && player == Arsonist.Role)
-                                || (Outlaw.Role != null && player == Outlaw.Role)
-                                || (Cursed.Role != null && player == Cursed.Role)
-                                || (Cultist.Role != null && player == Cultist.Role)
-                                || (Cultist.Culte1 != null && player == Cultist.Culte1)
-                                || (Cultist.Culte2 != null && player == Cultist.Culte2)
-                                || (Cultist.Culte3 != null && player == Cultist.Culte3))
+                            if (DictatorForcedVote.getBool() == true && (CultePlayers.Count() <= 0 || CultePlayers.Count() > 0 && !CultePlayers.Contains(Dictator.Role)))
+                            {
+                                if ((player.Data.Role.IsImpostor)
+                                    || (Jester.Role != null && player == Jester.Role)
+                                    || (Eater.Role != null && player == Eater.Role)
+                                    || (Arsonist.Role != null && player == Arsonist.Role)
+                                    || (Outlaw.Role != null && player == Outlaw.Role)
+                                    || (Cursed.Role != null && player == Cursed.Role)
+                                    || (Cultist.Role != null && player == Cultist.Role)
+                                    || (Cultist.Culte1 != null && player == Cultist.Culte1)
+                                    || (Cultist.Culte2 != null && player == Cultist.Culte2)
+                                    || (Cultist.Culte3 != null && player == Cultist.Culte3))
+                                {
+                                    Dictator.VotedFor = player;
+                                    GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
+                                    Dictator.SuperVote = true;
+                                }
+                                else
+                                {
+                                    Dictator.VotedFor = Dictator.Role;
+                                    GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvoteforFail");
+                                    Dictator.SuperVote = true;
+                                }
+                            }
+                            else
                             {
                                 Dictator.VotedFor = player;
                                 GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
                                 Dictator.SuperVote = true;
                             }
-                            else
-                            {
-                                Dictator.VotedFor = Dictator.Role;
-                                GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvoteforFail");
-                                Dictator.SuperVote = true;
-                            }
-                        }
-                        else
-                        {
-                            Dictator.VotedFor = player;
-                            GLMod.GLMod.currentGame.addAction(Dictator.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
-                            Dictator.SuperVote = true;
                         }
                     }
-                }
-                if (Dictator.Role != null && CopyCat.Role != null && Dictator.Role.Data.IsDead)
-                {
-                    if (player.PlayerId == votedId)
+                    if (Dictator.Role != null && CopyCat.Role != null && Dictator.Role.Data.IsDead)
                     {
-                        if (DictatorForcedVote.getBool() == true && (CultePlayers.Count() <= 0 || CultePlayers.Count() > 0 && !CultePlayers.Contains(CopyCat.Role)))
+                        if (player.PlayerId == votedId)
                         {
-                            if ((player.Data.Role.IsImpostor)
-                                || (Jester.Role != null && player == Jester.Role)
-                                || (Eater.Role != null && player == Eater.Role)
-                                || (Arsonist.Role != null && player == Arsonist.Role)
-                                || (Outlaw.Role != null && player == Outlaw.Role)
-                                || (Cursed.Role != null && player == Cursed.Role)
-                                || (Cultist.Role != null && player == Cultist.Role)
-                                || (Cultist.Culte1 != null && player == Cultist.Culte1)
-                                || (Cultist.Culte2 != null && player == Cultist.Culte2)
-                                || (Cultist.Culte3 != null && player == Cultist.Culte3))
+                            if (DictatorForcedVote.getBool() == true && (CultePlayers.Count() <= 0 || CultePlayers.Count() > 0 && !CultePlayers.Contains(CopyCat.Role)))
+                            {
+                                if ((player.Data.Role.IsImpostor)
+                                    || (Jester.Role != null && player == Jester.Role)
+                                    || (Eater.Role != null && player == Eater.Role)
+                                    || (Arsonist.Role != null && player == Arsonist.Role)
+                                    || (Outlaw.Role != null && player == Outlaw.Role)
+                                    || (Cursed.Role != null && player == Cursed.Role)
+                                    || (Cultist.Role != null && player == Cultist.Role)
+                                    || (Cultist.Culte1 != null && player == Cultist.Culte1)
+                                    || (Cultist.Culte2 != null && player == Cultist.Culte2)
+                                    || (Cultist.Culte3 != null && player == Cultist.Culte3))
+                                {
+                                    Dictator.VotedFor = player;
+                                    GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
+                                    CopyCat.SuperVote = true;
+                                }
+                                else
+                                {
+                                    Dictator.VotedFor = CopyCat.Role;
+                                    GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvoteforFail");
+                                    CopyCat.SuperVote = true;
+                                }
+                            }
+                            else
                             {
                                 Dictator.VotedFor = player;
                                 GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
                                 CopyCat.SuperVote = true;
                             }
-                            else
-                            {
-                                Dictator.VotedFor = CopyCat.Role;
-                                GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvoteforFail");
-                                CopyCat.SuperVote = true;
-                            }
-                        }
-                        else
-                        {
-                            Dictator.VotedFor = player;
-                            GLMod.GLMod.currentGame.addAction(CopyCat.Role.Data.PlayerName, player.Data.PlayerName, "allvotefor");
-                            CopyCat.SuperVote = true;
                         }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                GLMod.GLMod.logError("[RPC] setAllVoteTarget " + e.Message);
+                return;
+            }
+
         }
     }
 
@@ -406,6 +528,11 @@ namespace ChallengerOS.RPC
                 case (byte)CustomRPC.SetLover2:
                     {
                         RPCProcedure.setLover2(reader.ReadByte());
+                        break;
+                    }
+                case (byte)CustomRPC.CultistDieMeeting:
+                    {
+                        RPCProcedure.cultistDieMeeting();
                         break;
                     }
                 case (byte)CustomRPC.SetAllVoteTarget:

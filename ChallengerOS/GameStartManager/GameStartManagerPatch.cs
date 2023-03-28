@@ -84,9 +84,17 @@ namespace ChallengerOS.Versioncheck
                 {
                     // Check version handshake infos
 
+                    
+
                     bool versionMismatch = false;
                     bool notplayable = false;
                     string message = "";
+
+                    if (ChallengerMod.HarmonyMain.CanStartTheGame == false)
+                    {
+                        notplayable = true;
+                    }
+
                     foreach (InnerNet.ClientData client in AmongUsClient.Instance.allClients.ToArray())
                     {
                         if (__instance.StartButton.isVisible && client.Character.Data.PlayerId == 0)
